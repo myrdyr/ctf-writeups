@@ -1,3 +1,5 @@
-# Corrupted Nature
+# Web 130 Upload your best memes
 
-(TBD)
+Looking through the source, there was a commented reference to an upload page. Accessing it gave the option to upload pictures, although nothing seemingly happened to the pictures once uploaded. When we tried to upload garbage, the site would return an error code, and upon success it would just return back to the upload page. It being a meme site, we guessed that there were some back-end processing the images (scaling or adding watermarks), so we tried a few image formats. One accepted format was MVG, and file endings were ignored, meaning something parsed the contents.
+
+After searching a bit we discovered [ImageTragick](https://imagetragick.com/), and tested various payloads based on this. First we had no luck, until we put a reference to an HTTPS site in the first URL. Then the payload got parsed. Since the remote server had very few tools installed, we opted to just `curl` the flag back to us instead of popping any interactive reverse shells.

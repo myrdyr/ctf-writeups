@@ -1,6 +1,6 @@
 # Turtles all the way down
 
-We are given an image, `TurtleB.png`. Testing out various steganography tools on it, we find that using `steghide` with no password produces `TurtleC.jpg`. binwalk revealse that `TurtleC.jpg` is actually a JPEG + PNG mashed together, revealing a QR code. The QR code reads:
+We are given an image, `TurtleB.png`. Testing out various steganography tools on it, we find that using `steghide` with no password produces `TurtleC.jpg`. binwalk reveals that `TurtleC.jpg` is actually a JPEG + PNG mashed together, revealing a QR code. The QR code reads:
 
 `Hey, that's not a turtle! That's a tortoise. You promised us turtles. Quit messing with us!
 OK. Here's a secret I'll share with you; I never really liked NINJATURTLES`
