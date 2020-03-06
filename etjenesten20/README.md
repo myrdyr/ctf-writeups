@@ -22,7 +22,7 @@ login@corax:~/1_grunnleggende/4_overflow$ ./overflow "AA$(echo $SHC)ABCDEFGHAAAA
 ## 1.5_reversing
 Her har man etter en gang et flagg, eid av en annen bruker, og en setuid-binary. Reversing av denne, viser at de ønsker et passord som argument, og hvis dette er riktig, så kalles `setuid(flagg_eier)` etterfulgt `/bin/bash`, slik at vi kan lese flagget.
 
-`check_password()`-funksjonen har flere trinn. Først sjekker den at input er 32 bytes lang. Deretter at den starter med `Reverse_engineering`. Etter dette, så sjekkes det at bokstaven på index 0x13 er `_`, samt at hvis man tolker index 0x13 til 0x17 som et tall, så tilsvarer det `0x5F72655F` som er tall-representasjonen av strengen `_re_`. Til slutt, så sjekkes det om strengen slutter med `morsomt__` (fra index 0x17 og ut). 
+`check_password()`-funksjonen har flere trinn. Først sjekker den at input er 32 bytes lang. Deretter at den starter med `Reverse_engineering`. Etter dette, så sjekkes det at bokstaven på index 0x13 er `_`, samt at hvis man tolker index 0x13 til 0x17 som et tall, så tilsvarer det `0x5F72655F` som er tall-representasjonen av strengen `_re_` (må reversere strengen pga. endianness). Til slutt, så sjekkes det om strengen slutter med `morsomt__` (fra index 0x17 og ut). 
 
 I IDA, så ser programmet ca. slik ut
 
@@ -96,6 +96,15 @@ Så det er et program som lar oss laste opp og ned ting, men vi blir spurt om en
 
 Neste steg er å reverse `lootd`. For å kjøre det lokalt, må man installere `musl`, ettersom programmet ikke er linket mot standard libc. Etter en del reversing, så ser man litt mer av funksjonaliteten i programmet. `uname` bare printer ut en statisk streng, `uptime` kaller faktisk uptime-prosessen via popen, `download` laster ned filer, men trenger key hvis dot eller slash er i filnavnet - og saniterer en del tegn fra både filnavn og token. Til sist, så er det `upload`-funksjonen. Den spør om hvor mange bytes du vil sende, og så leser den inn like mange bytes og sender de til et program kalt `/usr/sbin/moveloot`. Dette kommer vi tilbake til.
 
+Main-funksjonen setter opp noen signal handlers, og looper evig.
+![main](2_2main.png)
+
+`get_command_input()` kjører en string compare (stopper ved første nullbyte), mens `gets()` stopper ikke der...
+![get_command_input](2_2gci.png)
+
+Et utsnitt bare, men `download_file()` henter inn et filnavn å lese, og så sjekker den om "." eller "/" er i filbanen gjennom `check_if_need_token()`, og spør om token hvis dette er tilfelle. `sanitize()` filtrerer ut en del spesialtegn man kan bruke til shell expansions/escapes. Så kalles `moveloot` med noen gitte argumenter.
+![get_command_input](2_2download.png)
+
 Målet vårt her, er å misbruke en feil i dette programmet til å få tilgang til `cloud-c2-70`. Her er det faktisk flere løsningsmetoder, og jeg løste dette på to ulike måter. La oss begynne med å sjekke sikkerheten til ELF-programmet.
 
 ```bash
@@ -115,9 +124,9 @@ For en buffer overflow-løsning, så trengs det tre ting: En måte å lekke en p
 
 For ROP, så trenger man en PIE leak, og offsets til ROP gadgets i f.eks. musl sin libc. For å finne offsets, må man fort gjette på OSet som kjøres i bakkant, for å finne den eksakt samme versjonen selv. Alternativt kan man forsøke å lekke adressene til enkeltfunksjoner, og bruke distansen mellom disse til å søke i en libc-database etter versjonen som er brukt.
 
-Heldigvis har `lootd` enormt mange sikkerhetshull, så alt som er nevnt er mulig. Og mere til. Først og fremst, så vil programmet skrive ut en feilmelding hvis man skriver en ugyldig kommando, og denne meldingen inneholder det du skrev inn. Feilen er at denne skrives ut med `printf`, og vi kan derfor bruke format strings. Hvis input er f.eks. `"%p %p %p"`, så vil `printf` begynne å skrive ut verdier oppover stacken. Man kan også bruke `%n` til å lage en write-primitive med denne alene.
+Heldigvis har `lootd` enormt mange sikkerhetshull, så alt som er nevnt er mulig, og mere til. Først og fremst, så vil programmet skrive ut en feilmelding hvis man skriver en ugyldig kommando, og denne meldingen inneholder det du skrev inn. Feilen er at denne skrives ut med `printf`, og vi kan derfor bruke format strings. Hvis input er f.eks. `"%p %p %p"`, så vil `printf` begynne å skrive ut verdier oppover stacken. Man kan også bruke `%n` til å lage en write-primitive med denne feilen alene.
 
-En annen, gigantisk tabbe, er at det meste av input lese inn med `gets()`, som bare leser og leser, lenge etter at bufferet den skriver til er fylt opp. Dette lar oss trivielt overskrive retur-adressen på stacken, mens vi er inne i f.eks. download-funksjonen. `gets()` leser til newline eller EOF, og lar oss også legge inn null-bytes, som terminerer strenger.
+En annen, gigantisk, tabbe er at det meste av input lese inn med `gets()`, som bare leser og leser, lenge etter at bufferet den skriver til er fylt opp. Dette lar oss trivielt overskrive retur-adressen på stacken, mens vi er inne i f.eks. download-funksjonen. `gets()` leser til newline eller EOF, og lar oss også legge inn null-bytes, som terminerer strenger.
 
 Disse feilene kombinert, oppfyller kravene vi hadde til buffer overflow, så strategien er dermed:
 
@@ -191,9 +200,9 @@ Fra forrige oppgave, så lander vi i `/home/lootd`, hvor det ligger et flagg. De
 
 Målet med denne oppgaven, er å få tilgang til `/vault/loot`, som er eid av brukeren `vault`. Etter exploiten fra 2.2 er vi "innlogget" som brukeren `lootd`, så vi har ikke tilgang til å en gang liste filer i loot-mappen. `/usr/sbin/moveloot`, som blir kalt fra `lootd`, er derimot en setuid-binary eid av `vault`, så den har tilgang.
 
-`moveloot` tar 3 parametere: filnavn, access token, og et valgfritt sekvensnummer. Hvis filnavn ikke er spesifisert, så leser moveloot inn data og skriver dette til en fil inne i `/vault/loot`, hvor navnet er tilfeldig generert. Hvis filnavn er spesifisert, så forsøker den å lese ut filen. Om filnavn inneholder slash eller dot, så må access token være spesifisert, og denne må matche inneholdet i `/vault/loot/key`.
+`moveloot` tar 3 parametere: filnavn, access token, og et valgfritt sekvensnummer. Hvis filnavn ikke er spesifisert, så leser moveloot inn data og skriver dette til en fil inne i `/vault/loot`, hvor navnet er tilfeldig generert. Hvis filnavn er spesifisert, så forsøker den å lese ut filen. Om filnavn inneholder slash eller dot, så må access token være spesifisert, og denne må matche innholdet i filen `/vault/loot/key`.
 
-For dette flagget, så opprettet jeg et symbolsk lenke i `/home/lootd` som pekte på `/vault/loot/key`, og så gjettet jeg at det fantes en fil kalt `FLAG` inni der.
+For dette flagget, så opprettet jeg et symbolsk lenke i `/home/lootd` som pekte på `/vault/loot/key`, og så gjettet jeg på at det fantes en fil kalt `FLAG` inni der.
 
 ```bash
 $ pwd
@@ -204,7 +213,7 @@ $ /usr/sbin/moveloot -f key
 $ /usr/sbin/moveloot -f /vault/loot/FLAG -k 81f75f6eda0a961eba3b4e6ce7400510
 ```
 
-Nøkkelen er md5("sandworm"), og vi kan nå lese alle filer eid av `vault` hvis vi vet navnet på de.
+Nøkkelen er md5("sandworm"), og vi kan nå lese alle filer eid av `vault` - hvis vi vet navnet på de.
 
 En alternativ løsning på denne oppgaven, er å utnytte at kernelen er dødsgammel: `Linux e1e9616e7e75 4.8.0+ #15 SMP Thu Oct 13 20:07:36 UTC 2016 x86_64 Linux`.
 Denne versjonen er sårbar mot f.eks. Dirty cow, som enkelt lar deg overskrive en suid-binary (mount eller umount) med shellcode. Bare pass på at den peker på `/bin/ash`, da `bash` ikke finnes på serveren.
@@ -216,7 +225,7 @@ Denne oppgaven kan løses rett etter man har løst 2.2, og avhenger kun av 2.1 o
 Inne i `/home/vault/.ash_history`, ligger det noen kommandoer som denne brukeren har kjørt:
 
 ```bash
-url -o /tmp/xxx http://keystore/query.php?keyname=oper@cloud-mgr-72
+curl -o /tmp/xxx http://keystore/query.php?keyname=oper@cloud-mgr-72
 cat /tmp/xxx
 rm -rf /tmp/xx
 exit
@@ -230,15 +239,15 @@ rm id
 exit
 ```
 
-De har altså logget seg på en annen server, `oper@cloud-hq-42` vha. en private key. De har også lastet ned nøkkelen til `/tmp/xxx`, men tukla til slettingen av den, så den ligger der enda. `xxx` er derimot eid av `vault`, så vi kan ikke lese den ut direkte. Forsøker vi å spørre keystore-serveren om den samme nøkkelen, så ser vi også at den ikke eksisterer lengre. Men vha. de samme teknikkene som i 2.4, så kan man lese ut innholdet av denne:
+De har altså logget seg på en annen server, `oper@cloud-hq-42` vha. en private key. De har også lastet ned nøkkelen til `/tmp/xxx`, men tukla til slettingen av den, så den ligger der enda. `xxx` er derimot eid av `vault`, så vi kan ikke lese den ut direkte. Forsøker vi å spørre keystore-serveren om den samme nøkkelen, så ser vi også at den ikke eksisterer lengre. Men vha. de samme teknikkene som i 2.4, så kan man lese ut innholdet av denne med moveloot, uten å trenge noen key. 
 
 ```
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF5303+AgwCFCG+e2TyB3CcNm+qPwrdkHzwrnqLrWC3+2TbiXBhWH/mGCVwJ9HmFcYXoYNvNP9c3s6XyZI4otiwn7XGyUW1adR2h89+ExNpYMJX4EQaKPgHSe9vku2IkzxvTUut2mxCZVzM6r7U9IrHmQt+degexjd0DGvF+AFjOqfEJP8hWDdZzZee3QJPWCwJi65I1148Sz/y10ORdWwVGhYl9Wsg20iXM+m/4xBfIhkCEiI3UCwYQFvLoXg+k9L4ogrHaAoX9/FrNi1HwthOGSr/h89TyP3KzAN3/jUSzLkl3AtENzDe2xtXyMMd3qXHoxat2k1FepPj8S74oIp oper@cloud-mgr-72
 ```
 
-bare for å oppdage at dette er en public key, ikke en private key. Så den er ikke så nyttig til å logge inn over SSH med. Men her kommer teksten fra tidligere til unnsetning - den om at nøkkel-generatoren hadde en bakdør.
+bare for å oppdage at dette er en public key, ikke en private key. Så den er ikke så nyttig til å logge inn over SSH med. Men her kommer teksten fra 2.1 til unnsetning - den om at nøkkel-generatoren hadde en bakdør.
 
-Nøkkelen her er en RSA-nøkkel, så for å gjøre om denne public keyen til en private key, så trenger vi å faktorisere produktet av to gigantiske primtall. Heldigvis, så har de lagt inn en bakdør, slik at flere av produktene har samme primtall. Dette er svært kjapt å sjekke med f.eks. Euler's Algoritme. Se på [2_5_privkey.py](2_5_privkey.py) for et eksempel på hvordan man kan generere en private key ut i fra det vi vet.
+Nøkkelen her er en RSA-nøkkel, så for å gjøre om denne public keyen til en private key, så trenger vi å faktorisere produktet av to gigantiske primtall. Heldigvis, så har de lagt inn en bakdør, slik at flere av produktene har samme primtall. Dette er svært kjapt å sjekke med f.eks. [Euclids's Algoritme](https://en.wikipedia.org/wiki/Euclidean_algorithm). Se på [2_5_privkey.py](2_5_privkey.py) for et eksempel på hvordan man kan generere en private key ut i fra det vi vet.
 
 Etter at vi har private key, så er det bare å kjøre `ssh -i privkey.pem oper@cloud-hq-42` og så ligger flagget der. I tillegg finner vi `/bin/crypt0r`-filen, som er brukt til å kryptere data, samt lootimpor-scriptet som ble referert til i historikken:
 
@@ -400,7 +409,7 @@ Output av det passordet blir `correct horse battery staple`, som også er flagge
 
 Denne oppgaven forsøker å regne ut summen av [Ackermann(n,n)](https://en.wikipedia.org/wiki/Ackermann_function) for n fra 0 til og med argumentet til programmet. Resultatet printes modulo `15^15`. Ackermann(4,4) forsøker å regne ut 2^2^2^65536, som er et altfor stort tall til å regne ut. Enda høyere tall er utenkelig store.
 
-Siden resultatet er modulo et tall, så går det derimot an å gjøre en optimalisering. [Denne](https://sasdf.cf/ctf/writeup/2019/plaid/rev/bigmaffs/) writeupen av en annen oppgave, forklarer matematiken bak løsningen ganske greit. Det viktige, er at for en høy `n`, så er det kun moduloen som har noe å si for hva resultatet blir. [Project Euler 282](https://projecteuler.net/problem=282) er også svært lik denne oppgaven, bare med en annen modulo.
+Siden resultatet er modulo et tall, så går det derimot an å gjøre en optimalisering. [Denne](https://sasdf.cf/ctf/writeup/2019/plaid/rev/bigmaffs/) writeupen av en annen oppgave, forklarer matematikken bak løsningen ganske greit. Det viktige, er at for en høy `n`, så er det kun moduloen som har noe å si for hva resultatet blir. [Project Euler 282](https://projecteuler.net/problem=282) er også svært lik denne oppgaven, bare med en annen modulo.
 
 Løsningen er å gjøre modular exponentiation for hver primtallsfaktor av moduloen, og så kombinere svarene via chinese remainder theorem. Vi trenger da bare å regne ut Ackermann(4,4) og Ackermann(100,100), ettersom N=5,6,7...Inf er akkurat det samme tallet.
 
