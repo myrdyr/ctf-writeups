@@ -249,7 +249,7 @@ bare for å oppdage at dette er en public key, ikke en private key. Så den er i
 
 Nøkkelen her er en RSA-nøkkel, så for å gjøre om denne public keyen til en private key, så trenger vi å faktorisere produktet av to gigantiske primtall. Heldigvis, så har de lagt inn en bakdør, slik at flere av produktene har samme primtall. Dette er svært kjapt å sjekke med f.eks. [Euclids's Algoritme](https://en.wikipedia.org/wiki/Euclidean_algorithm). Se på [2_5_privkey.py](2_5_privkey.py) for et eksempel på hvordan man kan generere en private key ut i fra det vi vet.
 
-Etter at vi har private key, så er det bare å kjøre `ssh -i privkey.pem oper@cloud-hq-42` og så ligger flagget der. I tillegg finner vi `/bin/crypt0r`-filen, som er brukt til å kryptere data, samt lootimpor-scriptet som ble referert til i historikken:
+Etter at vi har private key, så er det bare å kjøre `ssh -i privkey.pem oper@cloud-hq-42` og så ligger flagget der. I tillegg finner vi `/bin/crypt0r`-filen, som er brukt til å kryptere data, samt lootimport-scriptet som ble referert til i historikken:
 
 ```bash
 oper@hq ~ > which lootimport
@@ -320,7 +320,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-Her spesifiserer du bare start-epoch, og antall timer å spole bakover, og så kommer det krypterte flagget til slutt. Deretter gjenstår det bare å kjøre outputen gjennom en base64-decode, og bruke crypt0r eller Python-ekvivalenten til å dekryptere flagget med.
+Her spesifiserer du bare start-epoch, og antall timer å spole bakover, og så kommer det krypterte flagget til slutt. Deretter gjenstår det bare å kjøre outputen gjennom en base64-decode, og bruke crypt0r eller Python-ekvivalenten til å dekryptere flagget.
 
 Det var også en fil til inne i vault, og etter å ha brukt en del tid på å hente ut denne, så fant jeg ut at det bare var en offentlig tilgjengelig PDF fra Etteretningstjensten ("Fokus 2020").
 
