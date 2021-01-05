@@ -8,7 +8,43 @@ Oppgavene kom i form av epost i Snabel-A klokka 07.00, og det var også noen skj
 
 
 
-### Dag 1
+- [Dag 1 - Velkommen](#dag-1---velkommen)
+- [Dag 2 - MIDI](#dag-2---midi)
+- [Dag 3 - Enhance!](#dag-3---enhance-)
+  * [Easter egg 3](#easter-egg-3)
+- [Dag 4 - Måltall](#dag-4---m-ltall)
+- [Dag 5 - Passordlogg](#dag-5---passordlogg)
+- [Dag 6 - Slede8](#dag-6---slede8)
+  * [Easter egg 2](#easter-egg-2)
+  * [Easter egg 5](#easter-egg-5)
+- [Dag 7 - Rart signal](#dag-7---rart-signal)
+- [Dag 8 - ASN.1](#dag-8---asn1)
+- [Dag 9 - Hexmas](#dag-9---hexmas)
+- [Dag 10 - Slede8 #2 ASCII](#dag-10---slede8-2-ascii)
+  * [Easter egg 7](#easter-egg-7)
+- [Dag 11 - Snill/slem SQLite](#dag-11---snill-slem-sqlite)
+- [Dag 12 - Slede8 #3 Rev.](#dag-12---slede8-3-rev)
+  * [Easter egg 8](#easter-egg-8)
+- [Dag 13 - Fakset hexmelding](#dag-13---fakset-hexmelding)
+- [Dag 14 - Slede8 #4 Baklengs](#dag-14---slede8-4-baklengs)
+  * [Easter egg 9](#easter-egg-9)
+- [Dag 15 - Rarere Signal](#dag-15---rarere-signal)
+- [Dag 16 - Slede8 #5 Sortering](#dag-16---slede8-5-sortering)
+  * [Easter egg 10](#easter-egg-10)
+- [Dag 17 - Avlyttet](#dag-17---avlyttet)
+- [Dag 18 - Pingvinteller](#dag-18---pingvinteller)
+  * [Easter egg 11](#easter-egg-11)
+- [Dag 19 - Reidar/Sigurd/Adrian](#dag-19---reidar-sigurd-adrian)
+- [Dag 20 - Intranett](#dag-20---intranett)
+- [Dag 21 - Generasjoner](#dag-21---generasjoner)
+- [Dag 22 - CPA](#dag-22---cpa)
+- [Dag 23 - JuleQoRt](#dag-23---juleqort)
+- [Dag 24 - Autopilot](#dag-24---autopilot)
+- [Easter egg - oppsummert](#easter-egg---oppsummert)
+
+
+
+### Dag 1 - Velkommen
 
 ```
 Emne: Velkommen til DASS
@@ -40,7 +76,7 @@ For hver arbeidsoppgave du gjennomfører får du poeng som vises i poengoversikt
 
 
 
-### Dag 2
+### Dag 2 - MIDI
 
 ```
 Emne: Arbeidsoppgaver 2. desember
@@ -90,7 +126,7 @@ Flott å se at du er i gang med arbeidet. Håper du blir godt ivaretatt av din n
 
 
 
-### Dag 3
+### Dag 3 - Enhance!
 
 I løpet av kvelden på dag 2, så kom det en epost fra `Tastefinger` med innholdet
 
@@ -108,7 +144,17 @@ Din kollega Tastefinger har identifisert noe 🧁 med fila cupcake.png fra besla
 
 
 
-Passordet til 7z-filen er faktisk `til zip-fila,` og ut kommer `cupcake.png`, et veldig kornete bilde av en pingvin på en strand. Prøver først bildeforbedringsfunksjonen til `DASS`, men den sier at bildet ikke kan forbedres. Kjører PNG-fila gjennom zsteg, og vi får raskt en YouTube-link til et CSI-klipp som heter "Enhance!", så jeg prøver forbedring en gang til, og nå virker det plutselig. Etter flere runder med forbedring, så kan man så vidt skimte et flagg `PST{HuskMeteren}` på en palme i bakgrunnen.
+Passordet til 7z-filen er faktisk `til zip-fila,` og ut kommer `cupcake.png`, et veldig kornete bilde av en pingvin på en strand.
+
+![](cupcake.png)
+
+
+
+Prøver først bildeforbedringsfunksjonen til `DASS`, men den sier at bildet ikke kan forbedres. Kjører PNG-fila gjennom zsteg, og vi får raskt en YouTube-link til et CSI-klipp som heter "Enhance!", så jeg prøver forbedring en gang til, og nå virker det plutselig. Etter flere runder med forbedring, så kan man så vidt skimte flagget `PST{HuskMeteren}` på en palme i bakgrunnen.
+
+![](9bab0c0ce96dd35b67aea468624852fb.png)
+
+
 
 #### Easter egg 3
 
@@ -127,9 +173,7 @@ Bra jobbet! Sammen er vi gode!
 
 
 
-
-
-### Dag 4
+### Dag 4 - Måltall
 
 ```
 Emne: Luke 4
@@ -209,7 +253,7 @@ Nå bør ledergruppa bli fornøyd.
 
 
 
-### Dag 5
+### Dag 5 - Passordlogg
 
 ```
 Emne: Luke 5
@@ -220,7 +264,7 @@ Det rapporteres om tilgangstrøbbel til dokumentasjonsvelvet. Vi har fått logge
 
 
 
-Vi får utdelt en CSV-fil med UTF16-enkodet tekst, hvor hver linje er en epost med avsender, emne og et flagg. Det riktige flagget er det som har en emoji i navnet. Filen kan renskes opp litt ved å konvertere den
+Vi får utdelt en CSV-fil med UTF16-enkodet tekst, hvor hver linje er en epost med avsender, emne og et flagg. Det riktige flagget er det som har et sært, usynlig tegn, i navnet. Filen kan renskes opp litt ved å konvertere den
 
 ```python
 from urllib.parse import unquote
@@ -229,6 +273,10 @@ with open("log-fixed.csv", "w") as fd:
     for line in open("log.csv", encoding="UTF-16").readlines():
         fd.write(unquote(line))
 ```
+
+`2020-10-15 08:35:03;Nissen+<Jule+Nissen>;SPF+<Seksjon+for+Passord+og+Forebygging>;I+dag+har+jeg+lyst+til+at+PST{879502f267ce7b9913c1d1cf0acaf045}+skal+være+passordet+mitt`
+
+Linjen over har et merkelig tegn i første instans av ordet "Nissen", mellom `i` og `s`. Dagens flagg er altså `PST{879502f267ce7b9913c1d1cf0acaf045}`.
 
 
 
@@ -241,7 +289,7 @@ Det kan se ut som om en trusselaktør har klart å tilbakestille Sjef NPSTs pass
 
 
 
-### Dag 6
+### Dag 6 - Slede8
 
 ```
 Emne: Luke 6
@@ -288,7 +336,7 @@ Ved å løse "Hello, World!"-modulen innebygd i SLEDE8-verktøyet, så får man 
 
 
 
-### Dag 7
+### Dag 7 - Rart signal
 
 ```
 Emne: Luke 7
@@ -301,7 +349,11 @@ Det har blitt fanget opp et rart signal her på julenissens verksted. Det ser ik
 
 Får utdelt filen `data.complex16u`, som inneholder signaldata. Åpner denne i `Universal Radio Hacker` og trykker `Autodetect parameters` under `Interpretation`, og så velges det å vise signalet som ASCII:
 
-`PST{0n_0ff_k3y1ng_1s_34sy!}`
+![image-20210106011500831](image-20210106011500831.png)
+
+
+
+Flagget er `PST{0n_0ff_k3y1ng_1s_34sy!}`
 
 ```
 Emne: SV: SV: Luke 7
@@ -310,7 +362,7 @@ Takk for innsatsen J
 
 
 
-### Dag 8
+### Dag 8 - ASN.1
 
 ```
 Emne: Luke 8
@@ -401,7 +453,7 @@ Ikke glem å oppdatere kompetansen din i Kompetansebanken, det er viktig at prof
 
 
 
-### Dag 9
+### Dag 9 - Hexmas
 
 ```
 Emne: Luke 9
@@ -456,7 +508,7 @@ Da vet vi at vi kan dekode lignende meldinger kjapt i fremtiden!
 
 
 
-### Dag 10
+### Dag 10 - Slede8 #2 ASCII
 
 ```
 Emne: Luke 10
@@ -548,7 +600,7 @@ Denne modulen er veldig lik den forrige, men den store forskjellen er at nå ska
 
 
 
-### Dag 11
+### Dag 11 - Snill/slem SQLite
 
 ```
 Emne: Luke 11
@@ -584,7 +636,7 @@ Dette tror jeg vi må ta videre i linja.
 
 
 
-### Dag 12
+### Dag 12 - Slede8 #3 Rev.
 
 ```
 Emne: Luke 12
@@ -709,7 +761,7 @@ Etter litt prøving og feiling: `EGG{513d38_master_reverser}`
 
 
 
-### Dag 13
+### Dag 13 - Fakset hexmelding
 
 ```
 Emne: Luke 13
@@ -746,7 +798,7 @@ Det var ikke lett å se med en gang.
 
 
 
-### Dag 14
+### Dag 14 - Slede8 #4 Baklengs
 
 ```
 Emne: Luke 14
@@ -823,7 +875,7 @@ Kode som kjører på under 10,000 sykluser får også egg nummer 9: `EGG{5f5fc88
 
 
 
-### Dag 15
+### Dag 15 - Rarere Signal
 
 ```
 Emne: Luke 15
@@ -836,7 +888,7 @@ Denne oppgaven har ligget i backloggen hos oss, men det hadde vært veldig fint 
 
 
 
-Enda en oppgave som kan løses i Universal Radio Hacker. Denne gangen må vi derimot dekode bitstringen som Manchester-enkoding før vi får flagget.
+Enda en oppgave som kan løses i Universal Radio Hacker. Denne gangen må vi derimot dekode bitstringen som Manchester-enkoding før vi får flagget. Fremgangsmåten er den samme som på [Dag 7 - Rart signal](#dag-7---rart-signal), men vi må enten dekode bits selv, eller ta turen innom "Analysis" og velge `Manchester` i menyen der, samt `ASCII` som output.
 
 `PST{m4nch3st3r_3nc0d1ng_1s_4_l0t_0f_fun!}`
 
@@ -851,7 +903,7 @@ Det var jo en artig melding å sende med manchester-koding.
 
 
 
-### Dag 16
+### Dag 16 - Slede8 #5 Sortering
 
 ```
 Emne: Luke 16
@@ -949,7 +1001,7 @@ Med samme kode får vi et egg fra den neste læringsmodulen `EGG{a34ae56d455e16b
 
 
 
-### Dag 17
+### Dag 17 - Avlyttet
 
 ```
 Emne: Luke 17
@@ -1022,7 +1074,7 @@ Godt jobbet!
 
 
 
-### Dag 18
+### Dag 18 - Pingvinteller
 
 ```
 Emne: Luke 18
@@ -1133,7 +1185,7 @@ Fra nettsiden linkes det også til https://egg.spst.no. Det viser set at om man 
 
 
 
-### Dag 19
+### Dag 19 - Reidar/Sigurd/Adrian
 
 ```
 Emne: Luke 19
@@ -1184,7 +1236,9 @@ Det er bra, for jeg har ønsket meg en offisiell Windows 95 julegenser!
 
 
 
-### Dag 20
+
+
+### Dag 20 - Intranett
 
 ```
 Emne: Luke 20
@@ -1227,7 +1281,9 @@ Dette bekrefter mistanken om at en utenforstående har tilgang til vårt nettver
 
 
 
-### Dag 21
+
+
+### Dag 21 - Generasjoner
 
 ```
 Emne: Luke 21
@@ -1288,7 +1344,9 @@ Takk for hjelpen!
 
 
 
-### Dag 22
+
+
+### Dag 22 - CPA
 
 ```
 Emne: Luke 22
@@ -1434,7 +1492,9 @@ Godt jobbet!
 
 
 
-### Dag 23
+
+
+### Dag 23 - JuleQoRt
 
 ```
 Emne: Luke 23
@@ -1448,6 +1508,10 @@ Julekort
 <img src="julekort.png" alt="julekort" style="zoom:50%;" />
 
 Ved å undersøke ulike bitplanes, så er det en QR-kode i det røde laget, som sier `So close, yet so far...`. I det grønne laget er det noe som ser ut som midten av en QR-kode, og det blå laget er bare et rutemønster. Jeg forsøkte først å bytte transplantere de manglende bitene fra rød til grønn og dekode, men det kom ikke noe vettugt ut. Deretter forsøkte jeg å kombinere alle sammen med XOR, og det fungerte
+
+<img src="QR.png" style="zoom:25%;" />
+
+
 
 ```python
 from PIL import Image
@@ -1467,7 +1531,7 @@ for y in range(Y):
 print(decode(new)[0].data.decode())
 ```
 
-`PST{4ll_th3s3_d3l1c10us_l4y3rs}`
+Koden dekoder til flagget: `PST{4ll_th3s3_d3l1c10us_l4y3rs}`
 
 
 
@@ -1480,7 +1544,9 @@ Sikkert Tastefinger som prøver å være morsom...
 
 
 
-### Dag 24
+
+
+### Dag 24 - Autopilot
 
 ```
 Emne: Luke 24
@@ -1584,7 +1650,7 @@ Nummer 2 fra `kladd.txt` fra Dag 3. Dette er et program som kan kjøres i interp
 
 Nummer 3 fra LSB-stego i det siste forbedrede bildet på dag 3 (se dagen for nærmere beskrivelse): `EGG{MeasureOnceCutTwice}`
 
-Nummer 4 fra en intern epost sendt fra Mellomleder, som alle fikk `EGG{w0rlds_b3st_b0ss}`
+Nummer 4 fra en intern epost sendt fra Mellomleder, som alle fikk: `EGG{w0rlds_b3st_b0ss}`
 
 Nummer 5 fra SLEDE8-interpreteren fra Dag 6, hvis man løser "Hello World"-modulen: `EGG{Hello, SLEDE8!}`
 
