@@ -8,6 +8,8 @@ Oppgavene kom i form av epost i Snabel-A klokka 07.00, og det var også noen skj
 
 
 
+
+
 - [Dag 1 - Velkommen](#dag-1---velkommen)
 - [Dag 2 - MIDI](#dag-2---midi)
 - [Dag 3 - Enhance!](#dag-3---enhance-)
@@ -41,6 +43,8 @@ Oppgavene kom i form av epost i Snabel-A klokka 07.00, og det var også noen skj
 - [Dag 23 - JuleQoRt](#dag-23---juleqort)
 - [Dag 24 - Autopilot](#dag-24---autopilot)
 - [Easter egg - oppsummert](#easter-egg---oppsummert)
+
+
 
 
 
@@ -651,7 +655,7 @@ Se vedlagt fil for den monterte koden. Tastefinger mente det var relevant å for
 📎 program.s8
 ```
 
-Her får vi et "montert" SLEDE8-program, altså bare bytecodes. Jeg hadde på forhånd skrevet en emulator som kunne kjøre monterte programmer, og den kom godt med her. For å løse oppgaven raskt, så satset jeg ikke på å reversere den fullstendig, men begynte å angripe ting i koden. Blant annet er det en referanse tidlig til DATA på offset 0x38, som begynner med `QQW~`. XORes dette med `PST{`får vi `[1,2,3,5]`. Ut i fra koden, så virker det som om det er to verdier som lagres, hvor den ene settes til den andre, og den andre til summen av seg selv og den foregående. Dette er Fibonacii-rekken, og kan enkelt utledes.
+Her får vi et "montert" SLEDE8-program, altså bare bytecodes. Jeg hadde på [forhånd skrevet en emulator](runner.py) som kunne kjøre monterte programmer, og den kom godt med her. For å løse oppgaven raskt, så satset jeg ikke på å reversere den fullstendig, men begynte å angripe ting i koden. Blant annet er det en referanse tidlig til DATA på offset 0x38, som begynner med `QQW~`. XORes dette med `PST{`får vi `[1,2,3,5]`. Ut i fra koden, så virker det som om det er to verdier som lagres, hvor den ene settes til den andre, og den andre til summen av seg selv og den foregående. Dette er Fibonacii-rekken, og kan enkelt utledes.
 
 ```python
 fibonacci = [1, 1]
