@@ -441,7 +441,7 @@ En stor takk til IBM Norge som lot oss benytte z/OS for årets CTF!
 
 ### 2.3_onion
 
-Det er mulig å `nmap`-e seg til dette flagget ganske tidlig, men jeg dumpet først over det når jeg løste notatet i beslag 3. Dette pekte mot `http://fileserver/files/onion_name.txt`, som inneholder navnet på en TOR-server man kan aksessere for å se en oversikt over en slags fengsel med  dører som går opp og igjen.
+Det er mulig å `nmap`-e seg til dette flagget ganske tidlig, men jeg dumpet først over det når jeg løste notatet i beslag 3. Dette pekte mot `http://fileserver/files/onion_name.txt`, som inneholder navnet på en TOR-server man kan aksessere for å se en oversikt over et slags fengsel med  dører som går opp og igjen.
 
 ![image-20201222232550177](image-20201222232550177.png)
 
@@ -496,7 +496,7 @@ Godt jobbet! Nå må du bare hjelpe gisselet med å komme seg ut av bygningen!
 
 ### 2.3_scada_gissel
 
-Den siste oppgaven var litt vag. Vi har allerede etablert at vi kan komme oss inn via bakdøren til SCADA-systemet via PIN-bruteforce. I notatene fra `2.1_beslag_3` fikk vi også URL til en programfil, som forsøker å koble seg til et system for å sende kommandoer. Denne er inkompatibel med bakdøren pga. krav om brukernavn/PIN, men formatet den sender data på er `\x02 <antall bytes som følger><dør-ID-i-ASCII>` f.eks. `\x02\x040005` for døren med ID "0005". En slik melding er det vi skal sende til bakdøren, og dette åpner opp en av dørene. Ved å følge med i webgrensesnittet på TOR, eller ved å lage en egen websocket-klient, så kan vi følge med på at dørene åpnes, står oppe litt, og så lukkes.
+Den siste oppgaven var litt vag. Vi har allerede etablert at vi kan komme oss inn via bakdøren til SCADA-systemet via PIN-bruteforce. I notatene fra `2.1_beslag_3` fikk vi også URL til en programfil, som forsøker å koble seg til et system for å sende kommandoer. Denne er inkompatibel med bakdøren pga. krav om brukernavn/PIN, men formatet den sender data på er `\x02 <antall bytes som følger><dør-ID-i-ASCII>` f.eks. `\x02\x040005` for døren med ID "0005". En slik melding er det vi skal sende til bakdøren, og dette åpner opp en av dørene. Ved å følge med i webgrensesnittet på TOR, eller ved å lage en egen websocket-klient, så kan vi følge med på at dørene åpnes, står oppe litt, og så lukkes og låses.
 
 Ved å fuzze litt input, så er det tydelig at de aksepterer ganske mange typer input, så lenge lengdebyten er korrekt. Men det skjer ikke noe nevneverdig hvis IDen går til en ikke-eksisterende dør, eller refererer en av sensorene. "\x00" i starten ser også ut til å stenge dører (rød), og "\x01" ser ut til å låse de opp (gul). Selv om jeg looper steng-kommandoen til alle dørene, så er det fortsatt noen dører som går opp med jevne mellomrom, så det er ikke mulig å stenge inne hva eller hvem enn det er som rusler rundt inne der. Hver gang jeg ryker på en feiltilstand under fuzzingen, blir jeg kastet ut og må gjennom mange runder med ny bruteforcing før jeg kommer meg inn igjen, så jeg tester ikke veldig mye her. Jeg har satt opp en enkel klient som ber om input, og enten formatterer denne riktig for meg, eller tolker det som ren hex om den starter med `h`.
 
@@ -518,7 +518,7 @@ def get_input(r):
         print(r.recv())
 ```
 
-Ved å låse opp (men ikke åpne) døra til cellen, så ser vi at den åpner seg opp etter en kort stund (går fra gul til grønn). Målet er å lede gisselet til exit på kartet, men det er noen hindringer i veien:
+Ved å låse opp (men ikke åpne) døra til cellen, så ser vi at den åpner seg opp etter en kort stund (går fra gul til grønn). Dette er gisselet som åpner døren selv! Målet er å lede gisselet til exit på kartet, men det er noen hindringer i veien:
 
 - Dørene har ikke ekstremt logiske navn, i alle fall ikke ved første øyekast. De er gitt av et slags koordinatsystem, men med dør-posisjon og rom-nummer som en ekstra identifikator. Jeg valgte meg ut en rute og identifiserte navnene på alle dørene for å komme dit.
 - Man må vente på at gisselet faktisk går til neste dør, og låse den opp om og om igjen til gisselet går gjennom.
