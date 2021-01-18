@@ -183,9 +183,9 @@ Ligger det noen interessante filer eller tekniske spor her også?
 
 ### 2.1_beslag_3
 
-Siste flagg finnes i `Edit`-delen av appen. Denne var litt vrien å løste statisk, men ser ut til å være ganske enkel med en dynamisk approach.
+Siste flagg finnes i `Vault`-delen av appen. Denne var litt vrien å løste statisk, men ser ut til å være ganske enkel med en dynamisk approach.
 
-Edit lar deg skrive inn små tekstbiter med en overskrift. Disse kan krypteres ved å sette en 4-sifret PIN-kode og trykke på `Lock`. Da krypteres de originale filene med en nøkkel utledet av PIN-koden, og lagres i formatet `!<base64(originalnavn)>`. I `VaultActivity.xml` fra beslaget, finner vi også en entry `<string name="pin_hash">BSzN6uy2dDcolImpMKxffg==</string>` som ser ut til å brukes til å sammenligne inntastet PIN mot riktig PIN; altså den som ble brukt til å kryptere notatene vi ser i beslaget.
+Vault lar deg skrive inn små tekstbiter med en overskrift. Disse kan krypteres ved å sette en 4-sifret PIN-kode og trykke på `Lock`. Da krypteres de originale filene med en nøkkel utledet av PIN-koden, og lagres i formatet `!<base64(originalnavn)>`. I `VaultActivity.xml` fra beslaget, finner vi også en entry `<string name="pin_hash">BSzN6uy2dDcolImpMKxffg==</string>` som ser ut til å brukes til å sammenligne inntastet PIN mot riktig PIN; altså den som ble brukt til å kryptere notatene vi ser i beslaget.
 
 Det er mange steg på veien for å utlede hvordan krypteringen fungerer. Algoritmene er de samme som for `data.bin` i `2.1_beslag_1`, men det er noe ekstra som skjer i tillegg. Filen `https://mobile.cybertalent.no/xtra` lastes ned, og native-funksjonen `undo()` blir kalt på dataene som lastes ned, slik at filen blir en gyldig DEX-fil. Deretter lastes denne inn som en dynamisk klasse. Etter å ha reverset `undo()` så ser den ca. sånn her ut
 
@@ -321,7 +321,7 @@ Hva kan det være denne maskinen brukes til?
 
 ### 2.2_seatheworld_aksess
 
-Mye scanning av frontenden `seatheworld.tld`, tyder på at det ikke er noe å finne der. Det er bare port 80 som svarer, og det er bare en statisk webside som serveres tilbake. Dirbusting fører ikke til et eneste funn. `nusse.seatheworld.tld` kjører derimot FTP, SSH, Telnet og HTTPd. Banner fra alle tjenestene tyder på at dette er IBM z/OS, og en svært gammel utgivelse av denne. Etter mye lesing på nett, så fikk jeg brukt `nmap` til enumerere brukernavn og en del annet på terminal (Telnet)-tjenesten. Blant annet kan vi logge på med "USER/USER" eller "IBMUSER/SYS1", hvor sistnevnte er en slags superbruker. For å kommunisere med terminalen, har Corax preinstallert mange python-biblioteker og kommandolinjeverktøy, og jeg falt på `c3270`.
+Mye scanning av frontenden `seatheworld.tld`, tyder på at det ikke er noe å finne der. Det er bare port 80 som svarer, og det er bare en statisk webside som serveres tilbake. Dirbusting fører ikke til et eneste funn. `nusse.seatheworld.tld` kjører derimot FTP, SSH, Telnet og HTTPd. Banner fra alle tjenestene tyder på at dette er IBM z/OS, og en svært gammel utgivelse av denne. Etter mye lesing på nett, så fikk jeg brukt `nmap` til å enumerere brukernavn og en del annet på terminal (Telnet)-tjenesten. Blant annet kan vi logge på med "USER/USER" eller "IBMUSER/SYS1", hvor sistnevnte er en slags superbruker. For å kommunisere med terminalen, har Corax preinstallert mange python-biblioteker og kommandolinjeverktøy, og jeg falt på `c3270`.
 
 ```
 c3270 nusse.seatheworld.tld
@@ -648,7 +648,7 @@ a(lpha): Ved å se på alpha-layer til bildet, er det en QR-kode gjemt i den
 
 denne dekodes til en URL til `w3w://daytime.hacking.above` som er en måte å oppgi en koordinat på, via 3 ord. Disse ordene har 2 mulige lokasjoner i verden, hvor en av de er i Norge, nærmere bestemt `Lutvann` - som også er flagget.
 
-b(lue): Det blå laget inneholder en del koordinater, når vi entes leser av bildet, eller henter ut `b8,b,lsb,xy` med zsteg.
+b(lue): Det blå laget inneholder en del koordinater, når vi enten leser av bildet, eller henter ut `b8,b,lsb,xy` med zsteg.
 
 ```
 [37.4040208986156, -122.11557126842482]
@@ -756,6 +756,7 @@ hvorpå den sender en readfile()-request med argument `FLAG_1`, som printer ut f
 
 Del 2 består i å gjenskape den samme sekvensen, men nå med "FLAG_2" som argument i stedet.
 
+Se filen [transfer.py](transfer.py) for et eksempel på en implementasjon.
 
 
 #### 3.2.4_rusty_reversing_medium
@@ -797,7 +798,7 @@ Her er det bare å regne ut. Notasjonen i første linje er binomial, Φ-funksjon
 
 ##### 2) Sykler 
 
- `Euler fant ingen, men William Rowan hadde ingen problemer med ˚a finne en.` Vedlagt er en lang graf med mange noder på, og et vidt spenn med tilkoblinger mellom nodene. Det hintes til `William Rowan Hamilton`, som blant annet er kjent for å ha forkset på konseptet Hamiltonvei (Hamilton Path), eller Hamilton Cycle. En slik vei, er en vei som starter i en node, besøker *alle* nodene, og slutter der den begynte. Å finne en slik vei i en vilkårlig graf, er et NP-komplett problem, men det går an å få levelige algoritmer vha. f.eks. backtracing.
+ `Euler fant ingen, men William Rowan hadde ingen problemer med å finne en.` Vedlagt er en lang graf med mange noder på, og et vidt spenn med tilkoblinger mellom nodene. Det hintes til `William Rowan Hamilton`, som blant annet er kjent for å ha forsket på konseptet Hamiltonvei (Hamilton Path), eller Hamilton Cycle. En slik vei, er en vei som starter i en node, besøker *alle* nodene kun én gang, og slutter der den begynte. Å finne en slik vei i en vilkårlig graf, er et NP-komplett problem, men det går an å få levelige algoritmer vha. f.eks. backtracing.
 
 Jeg løste denne ved å navngi hver enkelt node med en id, og så transkribere hver enkelt tilkobling den hadde. Det var en grusom jobb med veldig stort potensiale for å gjøre feil. Til slutt satt jeg igjen med en tabell som så slik ut
 
@@ -864,7 +865,7 @@ Etter å ha prøvd noen tall i stigende rekkefølge, så det ut som om resultate
 
 Løsningene blir som følger:
 
-a) 8
+a) 15
 
 b) 653318623500070906096690267158057820537143710472954871543071966369497141477376 (`(2*3)^100`)
 
