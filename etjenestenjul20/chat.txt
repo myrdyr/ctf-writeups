@@ -1,0 +1,140 @@
+############################################
+#      Welcome to the #LT3000 chat.        #
+#                                          #
+# * Use at own risk.                       #
+# * All comms are encrypted.               #
+# * Please do not use real names.          #
+# * Have fun!                              #
+#                                          #
+############################################
+
+
+5 users currently online.
+
+FLAG: 04907eee5386072670b5107b744b2f8481294377
+
+--- Day changed 02 DES 2020 ---
+
+[09:04] B4tCracK: Hi every1, i read that SecureChat was bought by some megacorp, don't think it's safe anymore. let's talk here instead
+[09:40] RADAR: willco
+[09:46] eireen89: You made this thing all by yourself?
+[10:24] B4tCracK: just some stuff i had lying around from another project no big deal
+[10:24] B4tCracK: it encrypts stuff six times, might be a bit slow
+[11:23] RADAR: Wow, proper nation-state crypto stuff or what?
+[11:57] eireen89: Hey, RADAR, remember: We're a proper nation-state too! Or at least we should be!
+
+--- Day changed 03 DES 2020 ---
+
+[14:35] hungry_hippo_123: Where did you go? I sent lots of securechats but noone answered
+[14:56] hungry_hippo_123: when did we change apps???
+[15:31] RADAR: Uhoh, hungry_hippo_123 BOHICA
+[16:00] hungry_hippo_123: ??
+[16:01] eireen89: Seriously, hungry_hippo_123. You have to take communication seriously, and read your messages.
+[16:49] hungry_hippo_123: yeah yeah
+[16:51] hungry_hippo_123: but whats happening?
+[16:52] eireen89: This fight is grand er than us and each one of us. Ask of yourselves: Are you in it for Antarctica, or just to avoid boredom?
+[17:52] eireen89: The world is changing before our very eyes, and we must take a stand!
+[17:53] eireen89: Just read this shit: https://translate.googleusercontent.com/translate_c?depth=1&hl=en&nv=1&pto=aue&rurl=translate.google.com&sl=auto&sp=nmt4&tl=en&u=https://www.regjeringen.no/no/dokumenter/meld.-st.-32-20142015/id2415997/sec6%3Fq%3DAntarktis
+[18:08] RADAR: Oh, we're in! Into the abyss, and beyond!
+[18:23] hungry_hippo_123: Into the abyss!!
+[18:23] hungry_hippo_123: <hipsThor.jpg>
+[19:57] B4tCracK: im gone for ten minutes, and all of a sudden you're talking about the abyss. Maybe chill a little?
+[20:48] eireen89: Let's begin with a trip to magnificent Antarctica!
+[20:55] hungry_hippo_123: <okayDen.jpg>
+[21:21] B4tCracK: Sitting ducks on koldbjorn around here: https://www.google.com/maps/@-70.6927673,-0.2845782,14.8z
+
+--- Day changed 04 DES 2020 ---
+
+[00:26] B4tCracK: I have devised a cunning method to book flight tickets anonymously. Our names will not show up anywhere except in the Sea the World systems.
+[00:56] RADAR: W00t w00t
+[01:28] B4tCracK: Yeah, I knew investing in this "relationship" would come in handy some day!
+[01:29] B4tCracK: Just logged in myself to check, and status is CONFIRMED. IT IS FINALLY HAPPENING!
+[02:01] eireen89: Excellent! It's getting closer now. Can you hear the people sing?
+[02:02] hungry_hippo_123: <troll_face.jpg>
+[03:01] RADAR: Speaking bout tickets
+[03:01] RADAR: do we have a lock on the target yet?
+[03:02] RADAR: Oh and we need a codename! How about "Hummingbird"
+[04:40] eireen89: It is getting closer, now that we finally can get air tickets, the target can be some hot-shot norwie
+[04:47] eireen89: Maybe someone who runs those subsea facilities
+[05:14] hungry_hippo_123: We need a cooler name than hummingbird
+[05:14] hungry_hippo_123: More action!!
+[06:26] B4tCracK: There should be some adjective
+[07:08] RADAR: Uh, isn't tactical stuff my responsibility, not yours?!
+[07:09] B4tCracK: Operation FISHY PELICAN
+[07:10] hungry_hippo_123: No, EXPLODING something!!
+[07:11] B4tCracK: EXPLODING HUMMINGBIRD
+[08:05] RADAR: OK, that one's actually good. OORAH!
+[08:11] eireen89: And now back to your assignments. We have more important stuff to consider.
+
+--- Day changed 05 DES 2020 ---
+
+[09:04] eireen89: OMG OMG OMG
+[09:40] hungry_hippo_123: ??
+[09:46] RADAR: Sitrep
+[10:24] eireen89: I think they are onto us
+[11:09] hungry_hippo_123:  <southpole_pepe.gif >
+[11:23] eireen89: You know that blue dot on the map? When I opened maps now it was on the other side of the ocean in you know where
+[11:57] B4tCracK: you think someone is using your account? Which password manager are you using?
+[12:42] eireen89: Uh, dunno about manager, I use my regular password???
+[13:32] B4tCracK: what do you mean? to open your password manager?
+[13:45] hungry_hippo_123:  <success_kid.jpg >
+[14:35] eireen89: I don't understand
+[14:56] B4tCracK: guys? you DO focus on OPSEC, right???
+[15:31] hungry_hippo_123: On what?
+[16:00] eireen89: Our group is not concerned with OPEC.
+[16:01] B4tCracK: jfc we must go in cleanup mode ASAP
+[16:49] hungry_hippo_123:  <galaxy_brain_norwegian.png >
+[16:51] eireen89: OK? well, we must do everything to secure the operation. It's not much time left
+[16:52] eireen89: We can not falter now!
+[17:09] B4tCracK: so then we need to stop all comms until i've had a look at your phones
+[17:10] RADAR: willco
+[18:08] hungry_hippo_123:  <this_is_fine.jpg >
+
+--- Day changed 06 DES 2020 ---
+
+[00:05] hungry_hippo_123:  <erna_solberg_vader.jpg >
+[00:06] hungry_hippo_123:  <deathstar_verdal.jpg >
+[00:07] hungry_hippo_123: You guys, have you seen this funny names???!!
+[00:07] hungry_hippo_123:  <macdonald_berger.png >
+[01:43] hungry_hippo_123:  <kashRegister.jpeg >
+[03:59] hungry_hippo_123:  <moeLester.jpg >
+[04:51] eireen89: It's 04:51
+[04:56] hungry_hippo_123: and?
+[04:57] hungry_hippo_123:  <norway_frigate_sinking_4k.jpg >
+[05:01] B4tCracK: do you REMEMBER that we agreed not to use this channel until i've cleared it???
+
+--- Day changed 07 DES 2020 ---
+
+[08:27] hungry_hippo_123: btw can't find my booking reference
+[09:02] RADAR: Hey full radio silence NEWB
+[09:44] B4tCracK: nah its fine.
+[09:47] hungry_hippo_123: Do I need the reference thingy??
+[10:14] B4tCracK: ive examined the traffic pcaps and the app is safe
+[10:48] hungry_hippo_123:  <overly_attached_norwegian.jpg >
+[11:26] B4tCracK: and duh, yeah, you need the reference. i got it here two secs
+[12:08] B4tCracK: WJWQX
+[13:20] hungry_hippo_123: <leo_dicaprio_thank_you.jpeg>
+[13:37] RADAR: Hey b4tCracK: while you checked the traffic, did you check that travel system, too?
+[13:38] eireen89: Everyone ready for tomorrow?
+[14:05] hungry_hippo_123:  <distractedBoyfriend_Antarctica.png >
+[14:56] B4tCracK: yeah, some old crap that system
+[14:56] B4tCracK: good thing for us
+[15:00] eireen89: And the cold meadows of Antarctica shall be watered by the tears of greedy weegie bastards!
+[15:03] eireen89: Let's hope we will never see Norwegian exploitation expand to our part of the continental shelf again
+[15:04] RADAR: Let OPERATION EXPLODING HUMMINGBIRD begin!
+[18:27] B4tCracK: for future reference; your username to the backdoor is the first three letters of your first name followed by the
+[18:27] B4tCracK: length of your username here and ending with your last name. The capital letters of your name stays capital.
+[18:27] B4tCracK: I will NOT repeat this, and do NOT, I repeat; DO NOT write it down!
+
+--- Day changed 08 DES 2020 ---
+
+[11:09] RADAR: FUBAR! My man at the airport says hungry_hippo_123 was taken away by security
+[11:23] eireen89: Alas! A martyr for a just cause.
+[11:24] eireen89: Certainly a doofus, but also a martyr.
+[12:42] B4tCracK: FSCK! we need to clean up! for real this time. switch to secondary comms!
+[13:32] eireen89: Wait, what, why?
+[13:45] B4tCracK: if the state got their hands on him, it means THEY HAVE HIS PHOne and CAN READ THIS
+[14:35] RADAR: SELF DESTRUCT SELF DESTRUCT
+[14:56] eireen89: OK, discard your phones. But the kidnapping shall procede.
+[09:36] l4m3r: lol
+[11:46] l4m3r: a
