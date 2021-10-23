@@ -2,7 +2,6 @@
 
 
 
-Bla bla 
 
 ## 01 - Credchecker
 
