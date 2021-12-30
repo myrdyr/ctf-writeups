@@ -1,4 +1,40 @@
-## Dag 1
+# NPST Julekalender 2021
+
+For tredje år på rad avholder (N)PST en julekalender med små og store oppgaver. I år var det rimelig likt 2020, med samme plattform og metode for å sende inn flagg, noen egg å finne, og stor variasjon i typer oppgaver. Nytt av året var fri på mandager, oppgaveslipp klokka 18, og at egg var verdt 1 poeng i stedet for kun en stjerne i margen. Det var også en kobling mot E-tjenesten sin CyberTalent-CTF, for den som ville prøve seg på noe mer utfordrende.
+
+Writeups her forsøker ikke å belyse alle måter å løse oppgavene på, og kodesnuttene er renskrevet noe etter at en oppgave er løst, så det er mulig å forstå hva som skjer for de som ikke løste den.
+
+
+
+- [Dag 1 - Velkommen](#dag-1---velkommen)
+- [Dag 2 - Huskelapp](#dag-2---huskelapp)
+- [Dag 3 - Julekort](#dag-3---julekort)
+- [Dag 4 - Verkstedkrøll](#dag-4---verkstedkr-ll)
+- [Dag 5 - Digitalt Varelager](#dag-5---digitalt-varelager)
+- [Dag 6](#dag-6)
+- [Dag 7 - Kryptert Melding](#dag-7---kryptert-melding)
+- [Dag 8 - Frimerke](#dag-8---frimerke)
+- [Dag 9 - Nettverkstrafikk](#dag-9---nettverkstrafikk)
+- [Dag 10 - Varelager v2](#dag-10---varelager-v2)
+- [Dag 11 - Muffens i filsystemet](#dag-11---muffens-i-filsystemet)
+- [Dag 12 - Ugler i grøten](#dag-12---ugler-i-gr-ten)
+- [Dag 13](#dag-13)
+- [Dag 14 - Reinsdyr på villspor](#dag-14---reinsdyr-p--villspor)
+- [Dag 15 - Kameraopptak](#dag-15---kameraopptak)
+- [Dag 16 - Ødelagt Julesang](#dag-16----delagt-julesang)
+- [Dag 17 - Klokt Trasévalg](#dag-17---klokt-tras-valg)
+- [Dag 18 - Grønne Firkanter](#dag-18---gr-nne-firkanter)
+- [Dag 19 - ChimneyChopper](#dag-19---chimneychopper)
+- [Dag 20](#dag-20)
+- [Dag 21 - Mulig Lekkasje](#dag-21---mulig-lekkasje)
+- [Dag 22 - Mistenkelig Rute](#dag-22---mistenkelig-rute)
+- [Dag 23 - Sabotasje!](#dag-23---sabotasje-)
+- [Dag 24 - REDD JULA!](#dag-24---redd-jula-)
+- [Egg](#egg)
+
+
+
+## Dag 1 - Velkommen
 
 ```
 Fra: HR
@@ -40,7 +76,7 @@ Bra jobba <brukernavn>! Mellomleder tar kontakt med deg i morgen med mer konkret
 
 
 
-## Dag 2
+## Dag 2 - Huskelapp
 
 ```
 Fra: Mellomleder
@@ -133,7 +169,7 @@ Selvfølgelig, det gir mening! Jaja, det visste han jo allerede.
 
 
 
-## Dag 3
+## Dag 3 - Julekort
 
 ```
 Fra: Mellomleder
@@ -157,7 +193,7 @@ Vel vel. Tilsynelatende ikke noe muffens her, så julekortet blir sendt videre t
 
 
 
-## Dag 4
+## Dag 4 - Verkstedkrøll
 
 ```
 Fra: Mellomleder
@@ -206,7 +242,7 @@ Takk <brukernavn>, la oss prøve å holde litt bedre orden der fremover.
 
 
 
-## Dag 5
+## Dag 5 - Digitalt Varelager
 
 ```
 Fra: Mellomleder
@@ -257,7 +293,7 @@ Hviledag. Ingen oppgave på mandager.
 
 
 
-## Dag 7
+## Dag 7 - Kryptert Melding
 
 ```
 Fra: Mellomleder
@@ -312,7 +348,7 @@ Mellomleder
 
 
 
-## Dag 8
+## Dag 8 - Frimerke
 
 ```
 Fra: Mellomleder
@@ -397,7 +433,7 @@ Mellomleder
 
 
 
-## Dag 9
+## Dag 9 - Nettverkstrafikk
 
 ```
 Fra: Mellomleder
@@ -450,7 +486,7 @@ Oj, det var spennende. Takk for hjelpen <brukernavn>!
 
 
 
-## Dag 10
+## Dag 10 - Varelager v2
 
 ```
 Fra: Mellomleder
@@ -488,7 +524,7 @@ Oii, det var ikke bra at alle brukerne lå så lett tilgjengelig! Vi skal få fi
 
 
 
-## Dag 11
+## Dag 11 - Muffens i filsystemet
 
 ```
 Fra: Mellomleder
@@ -541,7 +577,7 @@ Bra jobbet <brukernavn>, takk for hjelpen!
 
 
 
-## Dag 12
+## Dag 12 - Ugler i grøten
 
 ```
 Fra: Mellomleder
@@ -614,7 +650,7 @@ Hviledag. Ingen oppgave på mandager.
 
 
 
-## Dag 14
+## Dag 14 - Reinsdyr på villspor
 
 ```
 Fra: Mellomleder
@@ -678,7 +714,7 @@ Mellomleder
 
 
 
-## Dag 15
+## Dag 15 - Kameraopptak
 
 ```
 Fra: Mellomleder
@@ -732,7 +768,7 @@ Takk for meldingen <brukernavn>. Bra jobba!
 
 
 
-## Dag 16
+## Dag 16 - Ødelagt Julesang
 
 ```
 Fra: Mellomleder
@@ -768,7 +804,7 @@ Mellomleder
 
 
 
-## Dag 17
+## Dag 17 - Klokt Trasévalg
 
 ```
 Fra: Mellomleder
@@ -850,7 +886,7 @@ Takk <brukernavn>! Sky rival, det er smart. Ingen grunn til å legge trasén for
 
 
 
-## Dag 18
+## Dag 18 - Grønne Firkanter
 
 ```
 Fra: Mellomleder
@@ -929,7 +965,7 @@ Mellomleder
 
 
 
-## Dag 19
+## Dag 19 - ChimneyChopper
 
 ```
 Fra: Mellomleder
@@ -1037,7 +1073,7 @@ Hviledag. Ingen oppgave på mandager.
 
 
 
-## Dag 21
+## Dag 21 - Mulig Lekkasje
 
 ```
 Fra: Mellomleder
@@ -1090,7 +1126,7 @@ Bra jobba <brukernavn>! Det er viktig at vi fortsetter å stå på siste dagene 
 
 
 
-## Dag 22
+## Dag 22 - Mistenkelig Rute
 
 ```
 Fra: Mellomleder
@@ -1126,7 +1162,7 @@ Takk for hjelpen <brukernavn>, dette var jo veldig mistenkelig.
 
 
 
-## Dag 23
+## Dag 23 - Sabotasje!
 
 ```
 Fra: Julenissen
@@ -1224,7 +1260,7 @@ Egget er altså `PST{EGG_515620}`
 
 
 
-## Dag 24
+## Dag 24 - REDD JULA!
 
 ```
 Fra: Mellomleder
@@ -1285,5 +1321,4 @@ Noen egg har allerede blitt nevnt, men det er 6 egg som ble funnet i løpet av k
 - Stego på dag 14: `PST{Egg_RudolfErRoedPaaNesen}`
 - Stego og gåte på dag 23. `PST{EGG_515620}`
 - Et kaninhull gjemt i en av stillingsannonsene til PST (0 poeng, men svar fra HR)
-
 

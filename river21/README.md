@@ -734,7 +734,7 @@ We tried to find a new way of sending the flag, and this time it is even encrypt
 https:///rsxc.no/5512383c4c02768617233eefdd4f79efe5dea9d08a850c8414644abf296845cf/22-challenge.cap
 ```
 
-The pcap file contains encrypted communication over WiFi, to an AP named"Private". Later, it shows an deauthentication attack being done, which makes the client connect back and do the 4-way handshake procedure while being monitored. This is something that can be attacked offline, but requires guessing the key. "Rock" is given as a hint towards "rockyou.txt" again, so the password is likely in there somewhere. 
+The pcap file contains encrypted communication over WiFi, to an AP named "Private". Later, it shows an deauthentication attack being done, which makes the client connect back and do the 4-way handshake procedure while being monitored. This is something that can be attacked offline, but requires guessing the key. "Rock" is given as a hint towards "rockyou.txt" again, so the password is likely in there somewhere. 
 
 `Aircrack-ng` can solve this in some time, especially by knowing that the password starts with `S`. But hashcat is faster by a large margin. To make hashcat attack it, the handshake has to be extracted from the pcap into a format digestible for hashcat. This can be done using tools, like explained in the documentation for hashcat, but there's [a website](https://www.onlinehashcrack.com/tools-cap-to-hccapx-converter.php) that also does this, and there's no sensitive information to be lost here anyways.
 
