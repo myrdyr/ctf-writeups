@@ -731,7 +731,7 @@ Mvh Mellomleder
 
 `opptak.gif` er en GIF med 111 frames. Alle frames har tilsynelatende bare støy, hovedsaklig blått og grønt. Teksten hinter til "MNIST" og "RØD". Løsningen er å se på de røde pixlene, og så oppdage at det er et 27x27-bilde i det øverste hjørnet, og dette viser enten blankt eller et tall mellom 0 og 9. 
 
-MNIST-hintet peker mot et stort datasett av håndskrevne tall, og tanken er nok at det skal lønne seg å bruke denne for å gjenkjenne tallene automatisk. Dessverre er det mye raskere å bare manuelt transkribere tallene, siden det ikke er altfor mange av de. Skriver noe rask kode for å filtrere bort alt annet enn rødt, samt croppe ut 27x27 pixler øverst til venstre:
+MNIST-hintet peker mot et stort datasett av håndskrevne tall, og tanken er nok at det skal lønne seg å bruke dette for å gjenkjenne tallene automatisk. Dessverre er det mye raskere å bare manuelt transkribere tallene, siden det ikke er altfor mange av de. Skriver noe rask kode for å filtrere bort alt annet enn rødt, samt croppe ut 27x27 pixler øverst til venstre:
 
 ```python
 from PIL import Image
@@ -1147,7 +1147,7 @@ Mellomleder
 
 Filene er så og si helt like. Begge inneholder de samme to aktivitetene, men rekkefølgen på de er omvendt. Målet her er å finne tidspunkt og sted noen kan ha møttes på. Ved å søke etter disse lokasjonene på Instagram (nevnt i oppgaveteksten) finner man mange bilder, men kun den oppgitte datoen er korrekt.
 
-Løsningen er å se etter bilder rundt "Svalbard Global Seed Vault", og finne [dette bildet](https://www.instagram.com/p/CXniLlloNGv/) lastet opp 18. desember. Bildet er tatt av brukeren [chiliwilly1234](https://www.instagram.com/chiliwilly1234/), som kun har dette bildet på kontoen sin, men også beskrivelsen `pst{utpaaturaldrisur123} ` på profilen. Det er også flagget.
+Løsningen er å se etter bilder rundt "Svalbard Global Seed Vault", og finne [dette bildet](https://www.instagram.com/p/CXniLlloNGv/) lastet opp 18. desember. Bildet er tatt av brukeren [chiliwilly1234](https://www.instagram.com/chiliwilly1234/), som kun har dette bildet på kontoen sin, men også beskrivelsen `pst{utpaaturaldrisur123}` på profilen. Det er også flagget.
 
 
 
@@ -1254,7 +1254,7 @@ ikke tall men antall streker langs klokka
 
 Man skal altså lese av klokkene, langeviser først, og telle antall streker. Den første klokka er 03:05, så viserne peker på 15 og 5. Den andre er 04:06, med visere på 20 og 6
 
-Egget er altså `PST{EGG_515620}`
+Egget er altså `PST{Egg_515620}`
 
 
 
@@ -1319,6 +1319,6 @@ Noen egg har allerede blitt nevnt, men det er 6 egg som ble funnet i løpet av k
 - Nøkkelen for OTP på dag 12: `PST{erteluj}`
 - Egg for å fullføre E-tjenesten sitt CyberTalent-oppdrag, annonsert på dag 13 i meldingen "Har du tid?"
 - Stego på dag 14: `PST{Egg_RudolfErRoedPaaNesen}`
-- Stego og gåte på dag 23. `PST{EGG_515620}`
+- Stego og gåte på dag 23. `PST{Egg_515620}`
 - Et kaninhull gjemt i en av stillingsannonsene til PST (0 poeng, men svar fra HR)
 
