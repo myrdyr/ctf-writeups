@@ -436,36 +436,36 @@ Wrapperen finnes i `pam_sm_authenticate()`
 ```c
 __int64 __fastcall pam_sm_authenticate(__int64 a1)
 {
-  int v2; // [rsp+20h] [rbp-20h]
-  unsigned int v3; // [rsp+24h] [rbp-1Ch]
-  char *s1; // [rsp+28h] [rbp-18h] BYREF
-  char *s2; // [rsp+30h] [rbp-10h]
-  unsigned __int64 stack_cookie; // [rsp+38h] [rbp-8h]
+  char *username; // [rsp+28h] [rbp-18h] BYREF
+  unsigned int err_auth; // [rsp+30h] [rbp-10h]
+  int err_rhost; // [rsp+34h] [rbp-Ch]
+  char *s_user; // [rsp+38h] [rbp-8h]
+  unsigned __int64 stack_cookie;
 
   stack_cookie = __readfsqword(0x28u);
   s2 = "user";
   if ( sodium_init() )
-    return 9LL;
+    return PAM_AUTH_ERR;
   if ( pam_get_user(a1, &s1, 0LL) )
-    return 7LL;
-  if ( !strcmp(s1, s2) )
+    return PAM_PERM_DENIED;
+  if ( !strcmp(username, s_user) )
   {
-    v2 = check_pam_rhost(a1);
-    v3 = challenge_response_authenticate(a1, s1);
-    if ( v2 )
+    err_rhost = check_pam_rhost(pamh);
+    err_auth = challenge_response_authenticate(pamh, username);
+    if ( err_rhost )
     {
-      pam_prompt(a1, 4LL, 0LL, "Sorry, the SSO solution is only available via the internal network");
-      return 11LL;
+      pam_prompt(pamh, 4LL, 0LL, "Sorry, the SSO solution is only available via the internal network");
+      return PAM_CRED_INSUFFICIENT;
     }
     else
     {
-      return v3;
+      return err_auth;
     }
   }
   else
   {
-    pam_prompt(a1, 4LL, 0LL, "Sorry, only a single \"user\" is allowed to sign in on our SSO solution");
-    return 11LL;
+    pam_prompt(pamh, 4LL, 0LL, "Sorry, only a single \"user\" is allowed to sign in on our SSO solution");
+    return PAM_CRED_INSUFFICIENT;
   }
 }
 ```
@@ -474,16 +474,17 @@ Videre, i `challenge_response_authenticate()`, så er dette den interessante del
 
 ```c
   memset(nonce, 0, sizeof(nonce));
-  epoch = time(0LL);
-  v7 = snprintf(s, 0x80uLL, "Challenge [t=%zu]: ", epoch);
-  if ( v7 > 0x7F )
-    return 9LL;
-  message_len = snprintf(message, 0x80uLL, "username=%s:timestamp=%zu", username, epoch);
-  if ( message_len > 0x7F )
-    return 9LL; // FAIL
-  if ( get_expected_response(message, message_len, nonce, &out) )
+  epoch = time(NULL);
+  prompt_len = snprintf(prompt, 128uLL, "Challenge [t=%zu]: ", epoch);
+  if ( prompt_len > 0x7F )
+    return PAM_AUTH_ERR;
+  chall_len = snprintf(chall, 128uLL, "username=%s:timestamp=%zu", username, epoch);
+  if ( chall_len > 0x7F )
+    return PAM_AUTH_ERR;
+  retval = get_expected_response(chall, chall_len, nonce, &correct_response);
+  if ( retval )
   {
-    v3 = 9; // FAIL
+    retval = PAM_AUTH_ERR;
   }
 ...
 ```
@@ -491,47 +492,46 @@ Videre, i `challenge_response_authenticate()`, så er dette den interessante del
 hvor en streng med brukernavn og timestamp går inn i en funksjon, og målet er å kunne regne ut samme respons som serveren. Inne i `get_expected_response()` gjøres følgende
 
 ```c
-__int64 __fastcall get_expected_response(__int64 message, __int64 message_len, __int64 nonce, void **out)
+__int64 __fastcall get_expected_response(__int64 msg, __int64 msg_len, __int64 nonce, void **outbuf)
 {
-  size_t v5; // rax
+  __int64 v5; // rax
   __int64 v6; // rax
-  unsigned int v9; // [rsp+2Ch] [rbp-24h]
-  __int64 key; // [rsp+30h] [rbp-20h] BYREF
-  __int64 v11; // [rsp+38h] [rbp-18h]
-  __int64 ciphertext; // [rsp+40h] [rbp-10h]
-  unsigned __int64 v13; // [rsp+48h] [rbp-8h]
+  __int64 key; // [rsp+20h] [rbp-20h] BYREF
+  __int64 ciphertext; // [rsp+28h] [rbp-18h]
+  __int64 outlen; // [rsp+30h] [rbp-10h]
+  unsigned int retval; // [rsp+3Ch] [rbp-4h]
 
-  v13 = __readfsqword(0x28u);
-  v11 = message_len + 16;
-  if ( !message || !nonce || !out )
-    return 9LL;
-  ciphertext = sodium_malloc(v11);
-  v5 = bin2hex_length(v11);
-  *out = calloc(1uLL, v5);
-  if ( ciphertext && *out )
+  retval = PAM_PERM_DENIED;
+  outlen = msg_len + 16;
+  if ( !msg || !nonce || !outbuf )
+    return PAM_AUTH_ERR;
+  ciphertext = sodium_malloc(outlen);
+  v5 = bin2hex_length(outlen);
+  *outbuf = calloc(1uLL, v5);
+  if ( ciphertext && *outbuf )
   {
     if ( read_key_from_file("/tmp/keyfile", &key) )
     {
-      v9 = 9;
+      retval = PAM_AUTH_ERR;
     }
-    else if ( crypto_secretbox_easy(ciphertext, message, message_len, nonce, key) )
+    else if ( crypto_secretbox_easy(ciphertext, msg, msg_len, nonce, key) )
     {
-      v9 = 9;
+      retval = PAM_AUTH_ERR;
     }
     else
     {
-      v6 = bin2hex_length(v11);
-      sodium_bin2hex(*out, v6, ciphertext, v11);
-      v9 = 0;
+      v6 = bin2hex_length(outlen);
+      sodium_bin2hex(*outbuf, v6, ciphertext, outlen);
+      retval = PAM_SUCCESS;
     }
   }
   else
   {
-    v9 = 9;
+    retval = PAM_AUTH_ERR;
   }
   sodium_free(ciphertext);
   sodium_free(key);
-  return v9;
+  return retval;
 }
 ```
 
@@ -1146,7 +1146,7 @@ answer = cands.index(min(cands))
 print(verify_guess(game_id, answer))
 ```
 
-
+Fullstendig kode kan finnes i [guessing4.zip/guessing4.py](guessing4.zip).
 
 ### 3.4 Utfordringer umulig
 
