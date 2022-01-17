@@ -4,6 +4,54 @@ For tredje gang avholdt E-tjenesten en CTF, i forbindelse med sitt talentprogram
 
 I tillegg til et stadig voksende sett med grunnleggende oppgaver, var det også et oppdrag som involverte ~6 ulike maskiner, i en privat Docker stack for hver deltager. Som før, var det også en del utfordringer å bryne seg på, som et avbrekk i oppdraget - eller som en motivator for de som ønsker å løse alt 100%.
 
+## TOC
+
+- [Cybertalent CTF, julen 2021](#cybertalent-ctf--julen-2021)
+  * [1. Grunnleggende](#1-grunnleggende)
+    + [1.7_path_traversal](#17_path_traversal)
+    + [1.8_path_traversal_bonus](#18_path_traversal_bonus)
+  * [2. Oppdrag](#2-oppdrag)
+    + [2.01_app](#201_app)
+    + [2.02_blog_1](#202_blog_1)
+    + [2.03_blog_2](#203_blog_2)
+    + [2.04_webserver_1](#204_webserver_1)
+    + [2.05_webserver_2](#205_webserver_2)
+    + [2.06_lootd_1](#206_lootd_1)
+    + [2.07_lootd_2](#207_lootd_2)
+    + [2.08_lootd_3](#208_lootd_3)
+    + [2.09_pam](#209_pam)
+    + [2.10_workstation](#210_workstation)
+    + [2.11_cicd](#211_cicd)
+    + [2.12_position](#212_position)
+    + [2.13_mission_success](#213_mission_success)
+  * [3. Utfordringer](#3-utfordringer)
+    + [3.1. Utfordringer lett](#31-utfordringer-lett)
+      - [3.1.1_krypt_lett](#311_krypt_lett)
+      - [3.1.2_verdifull_fil](#312_verdifull_fil)
+    + [3.2. Utfordringer middels](#32_utfordringer_middels)
+      - [3.2.1_krypt_middels](#321_krypt_middels)
+      - [3.2.2_lyd_nøtt_1](#322_lyd_nøtt_1)
+      - [3.2.3_lyd_nøtt_2](#323_lyd_nøtt_2)
+      - [3.2.4_vond_curry](#324_vond_curry)
+    + [3.3. Utfordringer vanskelig](#33-utfordringer-vanskelig)
+      - [3.3.1_krypt_vanskelig](#331-krypt-vanskelig)
+      - [3.3.x_guessing_game_x](#33x_guessing_game_x)
+      - [3.3.2_guessing_game_1](#332_guessing_game_1)
+      - [3.3.3_guessing_game_2](#333_guessing_game_2)
+      - [3.3.4_guessing_game_3](#334_guessing_game_3)
+      - [3.3.5_guessing_game_4](#335_guessing_game_4)
+    + [3.4 Utfordringer umulig](#34-utfordringer-umulig)
+      - [3.4.12_selenium_admin_user](#3412-selenium-admin-user)
+      - [3.4.15_cicd_user](#3415-cicd-user)
+  * [4. Skjulte flagg](#4-skjulte-flagg)
+    + [4.1_corax_dev_shm](#41_corax_dev_shm)
+    + [4.2_blog_hidden_message](#42_blog_hidden_message)
+    + [4.3_jwt_hidden_flag](#43_jwt_hidden_flag)
+    + [4.4_turbine_hidden_flag](#44_turbine_hidden_flag)
+    + [4.5_workstation_emacs_flag](#45_workstation_emacs_flag)
+
+
+
 ## 1. Grunnleggende
 
 Oppgave 1-6 er repetisjoner fra årene før. 7 og 8 er nye.
