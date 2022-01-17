@@ -53,10 +53,10 @@ Etter å ha kjørt kommandoen i 1.7, skriv `:n` inne i `less` for å hoppe til n
 
 Nettstedet `http://blog.utl` krever innlogging, og den vedlagte appen er en modifisert TOR-klient, som går til et domene som peker til bloggen. Slik kan den også enkelt nås fra utsiden av SSH-serveren. `AndroidManifest.xml` viser at `org.torproject.android.sample.MainActivity` er det som kjøres først, og inne i dens `onCreate`-metode finnes det et brukernavn, samt et passord som kjøres gjennom funksjonen `rot13()` før det tas i bruk. Dette passordet er første flagget.
 
-```
-Veldig bra!
-Android-applikasjonen ser ut til å tilhøre en tjeneste aktøren benytter. Undersøk tjenesten og se om det kan gi oss videre aksess til tjenestene deres.
-```
+> Veldig bra!
+> Android-applikasjonen ser ut til å tilhøre en tjeneste aktøren benytter. Undersøk tjenesten og se om det kan gi oss videre aksess til tjenestene deres.
+
+
 
 ### 2.02_blog_1
 
@@ -131,6 +131,8 @@ Kildekoden til denne siden inneholder flagget, og noen interessante funksjoner
 > Godt utført!
 > Tilgang til administrasjonspanelet kan bli nyttig for videre aksess.
 
+
+
 ### 2.04_webserver_1
 
 Tar vi nå en titt på `http://anvilshop.utl`, så er det ikke så mye som skjer. Men gjennom informasjonen fra admin-panelet, så vet vi at det er mulig å nedgradere Apache-versjonen til 2.4.49. Igjen lurer vi admin til å lese en XSS-payload:
@@ -148,6 +150,8 @@ Etter å ha nedgradert, så blir flagget for webserver_1 tilgjengelig.
 
 > Veldig bra!
 > Du fikk nedgradert apache-versjonen, gir dette noen nye muligheter?
+
+
 
 ### 2.05_webserver_2
 
@@ -172,6 +176,8 @@ apache:x:100:101:apache:/var/www:/sbin/nologin
 > Supert!
 > Du har funnet en inngangsvektor til apache-serveren. Kan du få shell-aksess på serveren? Serveren ser ut til å ha port 22 åpen. Finnes det noen muligheter der?
 
+
+
 ### 2.06_lootd_1
 
 Ettersom det å nedgradere serveren fører til at mod-cgi blir skrudd av, blir det også mulig å laste ned lootd-programmet, som vi ble informert om i [INTREP.txt](INTREP.txt)
@@ -181,6 +187,8 @@ Ettersom det å nedgradere serveren fører til at mod-cgi blir skrudd av, blir d
 Inne i dette programmet, så er det gjemt et ASCII art-flagg på adresse `.FLAG:000000000040B3C0`. Det er mulig å lese ut dette ved å printe det ut til en terminal e.l., ettersom det hovedsaklig består av ANSI escape codes.
 
 > Bra funn! Kanskje det er mer å finne i dette programmet?
+
+
 
 ### 2.07_lootd_2
 
@@ -314,6 +322,8 @@ Ved å oppgradere maskinen til 2.4.51 igjen, er det mulig å kjøre lootd.v2 via
 
 > Bra pwnet! Got root?
 
+
+
 ### 2.08_lootd_3
 
 Neste steg er å roote maskinen. Jeg trodde at jeg kunne slippe unna dette, ved å kjøre samme triks som tidligere år, hvor jeg gjettet filnavn tilbake i tid. Dette fungerte til en viss grad, men det var ingen flagg å finne der. I alle fall ikke for oppdraget.
@@ -348,6 +358,8 @@ FLAG:xxxx
 > Fantastisk!
 > Møtereferatet inneholder kritisk informasjon!
 > Serveren ser ut til å være koblet til et internt nettverk. Vi mistenker at dette blir benyttet av aktøren til utvikling av egne tjenester. Kan du undersøke mulighetene for lateral bevegelse i nettet?
+
+
 
 ### 2.09_pam
 
@@ -492,6 +504,8 @@ og fordrer at man også bruker LFI-funksjonaliteten til å lese ut keyfile også
 
 > Bra jobbet! Kan denne apache-serveren brukes til noe?
 
+
+
 ### 2.10_workstation
 
 Innlogget som `user@anvilshop.tld`, kan man utforske hjemmeområdet til brukeren litt.
@@ -520,6 +534,8 @@ Det er altså mulig å kjøre en `ssh workstation`, taste inn enda en SSO-kode, 
 
 > Bra jobbet!
 > Dette ser ut som en utviklermaskin. Hva har utvikleren jobbet med?
+
+
 
 ### 2.11_cicd
 
@@ -675,6 +691,8 @@ Godt gjennomført supply chain-angrep!
 Kan du nå finne posisjon til agentene som har oppgradert til din "nye" versjon av applikasjonen?
 ```
 
+
+
 ### 2.12_position
 
 Ved å besøke `/logs/`på bloggen nå, så er det plutselig mulig å lese ut posisjonene til alle sammen.
@@ -692,6 +710,8 @@ FLAG: xxxxxxxxxx  Good work!
 > Posisjon raportert.
 > For å løse oppdraget fullstendig trenger vi både posisjonen til agentene og referatet med planene deres. Fullfør oppdraget slik:
 > echo "${FLAGG_REFERAT}${FLAGG_POSISJON}" | xargs scoreboard
+
+
 
 ### 2.13_mission_success
 
@@ -1088,7 +1108,7 @@ Allerede på `2.02_blog_1` er det mulig å se på `/logs` og observere hvor ekst
 
 > Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
 
-Denne finnes det mange sårbarheter i, blant annet `CVE-2020-16040`. Med antagelse om at botten kjørte uten sandbox, testet jeg ut en public exploit, med egen shellcode som produserte reverse shell til Corax. Herfra fikk jeg shell i noen titalls sekunder til sammen, som var nok til å finne user-flagget. Initielt var dette verdt 64 poeng, men etter at mange begynte å finne dette, ble det erstattet med "stjerner i margen" på scoreboard.
+Denne finnes det mange sårbarheter i, blant annet `CVE-2020-16040`. Med antagelse om at admin-boten kjører uten sandbox, testet jeg ut en public exploit, men med egenprodusert shellcode som laget reverse shell til Corax. Herfra fikk jeg shell i noen titalls sekunder til sammen, noe som var nok til å finne user-flagget. Initielt var dette verdt 64 poeng, men etter at mange begynte å finne dette, ble poengene erstattet med "stjerner i margen" på scoreboard.
 
 
 
@@ -1100,7 +1120,7 @@ Dette flagget ble lagt til noe senere, men i forbindelse med `2.11_cicd` endrer 
 self.yaml_obj = yaml.load(data, Loader=yaml.Loader)
 ```
 
-Hvor det bør ringe noen varsellamper for de som har vært borti YAML og Python før. Man skal alltid bruke SafeLoader, aldri Loader, ellers kan man opprette egne Python-objekter. De som vedlikeholder pyyaml har forsøkt å blokkere det meste, men det er fortsatt trivielt å lage objekter som kjører vilkårlig kode, og dermed gir RCE.
+Hvor det bør ringe noen varsellamper for de som har vært borti YAML og Python før. Man skal alltid bruke SafeLoader, aldri Loader, ellers kan man opprette egne Python-objekter. De som vedlikeholder PyYAML har forsøkt å blokkere det meste, men det er fortsatt trivielt å lage objekter som kjører vilkårlig kode, og dermed gir RCE.
 
 Jeg sendte derfor inn en yaml-fil som så slik ut
 
