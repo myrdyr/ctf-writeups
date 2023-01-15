@@ -1,0 +1,97 @@
+; Skriv et program som evaluerer et regnestykke og skriver resultatet til utstrømmen.
+; 
+; - Regnestykket er på formen 10 + 5 - 3 * 4 / 2 =, hvor hvert ord i inputen er enten et tall eller en operator.
+; - Operatorene er ASCII-tegn.
+; - Regnestykket skal evalueres fra venstre mot høyre, slik at svaret på regnestykket i eksemplet skal bli 24.
+; - Operatorene er +, -, *, / og =.
+; - Programmet skal skrive ut resultatet når operatoren er = og så stoppe med feilkode 0.
+; - Hvis man forsøker å dele på 0 skal programmet stoppe med feilkode 1 uten å skrive ut noe.
+; - Hvis operatoren er ugyldig skal programmet stoppe med feilkode 2 uten å skrive ut noe.
+
+; Strategi: 
+; 0. Sett resultat lik første tall lest inn
+; 1. Les inn symbol (og sjekk om det er erlik)
+; 2. Les inn neste tall.
+; 3. Sjekk hvilket tegn det er og gjør operasjonen
+; 4. Lagre i resultat
+; 5. Gå til 1
+
+.ALIAS resultat  0
+.ALIAS sign      1
+.ALIAS input     2
+.ALIAS plusstegn 3
+.ALIAS minustegn 4
+.ALIAS gangetegn 5
+.ALIAS deletegn  6
+.ALIAS erliktegn 7
+.ALIAS a 8
+
+SETTE plusstegn 0x2b
+SETTE minustegn 0x2d
+SETTE gangetegn 0x2a
+SETTE deletegn  0x2f
+SETTE erliktegn 0x3d
+
+; Første tall fra input er alltid et tall
+INN resultat
+
+:loop
+; Les inn symbol og sjekk om det er erlik
+INN sign
+RUTINE finderlik
+
+; Les inn neste tall
+;INN input
+
+; Sjekk tegn og gjør operasjonen
+KOPIERE a sign
+MINUSE a plusstegn
+FORBI /NULL 0
+HOPPE do_plusse
+
+KOPIERE a sign
+MINUSE a minustegn
+FORBI /NULL 0
+HOPPE do_minuse
+
+KOPIERE a sign
+MINUSE a gangetegn
+FORBI /NULL 0
+HOPPE do_gange
+
+KOPIERE a sign
+MINUSE a deletegn
+FORBI /NULL 0
+HOPPE do_dele
+STOPPE 2
+
+:do_plusse
+INN input
+PLUSSE resultat input
+HOPPE loop
+:do_minuse
+INN input
+MINUSE resultat input
+HOPPE loop
+:do_gange
+INN input
+GANGE resultat input
+HOPPE loop
+:do_dele
+INN input
+TESTE input
+FORBI /NULL 0
+STOPPE 1
+DELE resultat input
+HOPPE loop
+
+:finderlik
+KOPIERE a sign
+MINUSE a erliktegn
+FORBI /NULL 0
+HOPPE ferdig
+TILBAKE
+
+:ferdig
+UT resultat
+STOPPE 0

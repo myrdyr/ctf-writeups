@@ -1,0 +1,5 @@
+; Skriv et program som leser inn to tallverdier og skriver ut summen av dem (1 ord på 13 bit).
+INN 0
+INN 1
+PLUSSE 0 1
+UT 0

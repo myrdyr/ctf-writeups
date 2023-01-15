@@ -1,0 +1,17 @@
+; Skriv et program som leser inn en nullterminert ASCII-streng (1 ord per tegn), tar ENTEN (XOR) av hvert tegn med 0x1b39 og skriver ut resultatet.
+.ALIAS a 0x00
+.ALIAS k 0x01
+SETTE k 0x1b39
+
+; Les inn et tall og hopp til 'ferdig' om det er 0
+:loop
+INN a
+TESTE a
+FORBI /NULL 0
+HOPPE ferdig
+ENTEN a k
+UT a
+HOPPE loop
+
+:ferdig
+STOPPE 0

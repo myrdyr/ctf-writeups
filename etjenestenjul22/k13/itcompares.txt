@@ -1,0 +1,25 @@
+; Skriv et program som leser inn to tallverdier A og B og skriver ut enten tallverdien 1 hvis A er større enn B, eller 0 i alle andre tilfeller.
+.ALIAS a 0x00
+.ALIAS b 0x01
+.ALIAS nulltall 0x02
+.ALIAS entall 0x03
+SETTE nulltall 0
+SETTE entall 1
+INN a
+INN b
+MINUSE a b
+
+; a == b --> 0
+FORBI /NULL 0
+HOPPE ernull
+
+; a < b --> 0
+FORBI /MENTE 0
+HOPPE ernull
+
+; a > b
+UT entall
+STOPPE 0
+
+:ernull
+UT nulltall

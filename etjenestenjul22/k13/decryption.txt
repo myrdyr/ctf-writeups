@@ -1,0 +1,29 @@
+; Skriv et program som leser inn:
+; 1. Mengden data som skal dekrypteres (1 ord), deretter
+; 2. Selve de krypterte dataene.
+; Programmet skal ta ENTEN (XOR) av dataene med 4919 og skrive ut resultatet.
+.ALIAS a 0x00
+.ALIAS lengde 0x01
+.ALIAS k 0x02
+.ALIAS entall 0x03
+
+SETTE entall 1
+SETTE k 4919
+
+; Les inn lengden
+INN lengde
+
+; Les inn et tall, xor og print
+:loop
+INN a
+ENTEN a k
+UT a
+; Dekrementer lengde og hopp til 'ferdig' om den er 0
+MINUSE lengde entall
+TESTE lengde
+FORBI /NULL 0
+HOPPE ferdig
+HOPPE loop
+
+:ferdig
+STOPPE 0
