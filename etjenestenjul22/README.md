@@ -144,7 +144,7 @@ Den ferdige koden ligger in [client.py](client.py)
 
 ### 1.7 Reversing
 
-Her har man etter en gang et flagg, eid av en annen bruker, og en setuid-binary. Reversing av denne, viser at de ønsker et passord som argument, og hvis dette er riktig, så kalles `setuid(flagg_eier)` etterfulgt `/bin/bash`, slik at vi kan lese flagget.
+Her har man atter en gang et flagg, eid av en annen bruker, og en setuid-binary. Reversing av denne, viser at de ønsker et passord som argument, og hvis dette er riktig, så kalles `setuid(flagg_eier)` etterfulgt `/bin/bash`, slik at vi kan lese flagget.
 `check_password()`-funksjonen har flere trinn. Først sjekker den at input er 32 bytes lang. Deretter at den starter med `Reverse_engineering`. Etter dette, så sjekkes det at bokstaven på index 0x13 er `_`, samt at hvis man tolker index 0x13 til 0x17 som et tall, så tilsvarer det `0x5F72655F` som er tall-representasjonen av strengen `_re_` (må reversere strengen pga. endianness). Til slutt, så sjekkes det om strengen slutter med `morsomt__` (fra index 0x17 og ut). 
 I IDA, så ser programmet ca. slik ut
 
@@ -177,7 +177,7 @@ Hvor `les_bok` har `setuid` satt, slik at den kjører som brukeren `basic8`. Kil
 `filename_ok()` itererer over hele filnavnet, og sjekker om noen av bokstavene er en av ```&;$|<> ` ```, som er "farlige" tegn man skal unngå, hvis man kjører en string som en kommando. Disse kan nemlig bryte ut av strengen, eller kjøre sub-kommandoer i visse situasjoner (som jo var løsningen på Injection-oppgaven).
 
 `show_file()` genererer kommandoen `less bok/<input_her>.txt`, setter `LESSSECURE=1` i env (gjør at man ikke kan bryte seg ut av less og kjøre kommandoer eller åpne nye filer), og så kalles libc sin `system()` på hele strengen. Feilen her, er at de også kjører `url_decode()` på kommandoen først. Sistnevnte utfører normal URL-dekoding på segmenter av formatet "%xx", slik at f.eks. blir "%41" til 'A'.
-Løsningen er derfor ganske enkel. Siden programmet tar flere argumenter som input, men starter med "bok/" og slutter med ".txt", så er det fullt mulig å bruke "%20" til å injecte mellomrom mellom de forskjellige segmentene. Eksempelvis vil denne funksjonen lese både flagg og bonusflagg.
+Løsningen er derfor ganske enkel. Siden programmet tar flere argumenter som input, men starter med "bok/" og slutter med ".txt", så er det fullt mulig å bruke "%20" til å injecte mellomrom mellom de forskjellige segmentene. Eksempelvis vil denne inputen lese både flagg og bonusflagg.
 `./les_bok "../FLAGG.txt%20BONUS_FLAGG%20"`
 Dette åpner 3 filer i less: `bok/../FLAGG.txt`, `BONUS_FLAGG` og `.txt`, hvor sistnevnte ikke finnes.
 
