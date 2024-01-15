@@ -1,0 +1,73 @@
+% STD RAS:0
+; Write a program that fills a circle with a given radius
+; using the raster module.
+;
+; Use color 12 for pixels inside the circle and color 0 for
+; pixels outside the circle.
+;
+; Read the radius from the input module. You can assume that
+; the first word in the input stream is the radius and that
+; the radius is between 0 and 127. The center of the circle
+; must in the position 128,128. A circle with radius 0 is a
+; single dot.
+;
+; The input module (SIM) must be located in slot 13 and the
+; raster module (RAS) in slot 0. The other slots can be
+; configured as you like.
+
+; for x in range(256)
+; for y in range(256)
+; A = (x-128)^2
+; B = (y-128)^2
+; C^2 = A + B
+; C = sqrt(C^2)
+; if C > RADIUS: white
+; else: 12
+
+RADIUS <- FIF <- IDA
+!RADIUS ? NIP <- #zero
+RAP <- #0
+loop:
+    ; Calculate (x-128)^2
+    FPX <- FIF <- #128
+    FPY <- FIF <- RAX
+    X <- FDF
+    FPX <- X
+    FPY <- X
+    X <- FPR
+
+    ; Calculate (y-128)^2
+    FPX <- FIF <- #128
+    FPY <- FIF <- RAY
+    Y <- FDF
+    FPX <- Y
+    FPY <- Y
+    Y <- FPR
+
+    ; sqrt(x^2 + y^2)
+    FPX <- X
+    FPY <- Y
+    FPY <- FSR <- FSM
+
+    FPX <- RADIUS
+    FGT ? COLOR <- #12
+    FLT ? COLOR <- #0
+    RAI <- COLOR
+
+    RAP ? NIP <- #loop
+    RAD <- #0
+    NIP <- #HLT
+
+zero:
+    RAX <- #128
+    RAY <- #128
+    RAW <- #12
+    RAD <- #0
+    NIP <- #HLT
+
+
+RADIUS: 0
+DISTANCE: 0
+COLOR: 0
+X: 0.0
+Y: 0.0

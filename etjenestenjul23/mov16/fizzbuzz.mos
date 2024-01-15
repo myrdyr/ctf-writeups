@@ -1,0 +1,108 @@
+% MIN
+; Write a FizzBuzz program.
+; 
+; The program must write the numbers 1 to 10000 to the printer
+; with one number per line. If the number is divisible by 3,
+; the print the string "Fizz" instead of the number and if the
+; number is divisible by 5, print the string "Buzz instead. If
+; the number is divisible by both 3 and 5, print the string
+; "FizzBuzz".
+; 
+; The configuration must be the minimal configuration (just
+; the MPU and the printer). No other modules are allowed.
+; 
+
+
+; Every 3rd 1 position print "Fizz", every 5th "Buzz" and every 15th "FizzBuzz"
+
+; Count downwards to use conditonals
+loop:
+    NIP <- #print_number
+    left_to_print_1s <- DEC <- left_to_print_1s
+    cur_1s_ascii <- INC <- cur_1s_ascii
+    !left_to_print_1s ? NIP <- #do_10
+    NIP <- #loop
+
+print_number:
+    STT <- PIP ; In case it is needed by fizz_buzz_printer
+    fizz_counter <- DEC <- fizz_counter
+    buzz_counter <- DEC <- buzz_counter
+    !fizz_counter ? PIP <- #fizz
+    !buzz_counter ? PIP <- #buzz
+
+    always_print_1000s ? PRN <- cur_1000s_ascii
+    always_print_100s  ? PRN <- cur_100s_ascii
+    always_print_10s   ? PRN <- cur_10s_ascii
+    PRN <- cur_1s_ascii
+    PRN <- #10 ; newline
+    NIP <- STT
+
+; Reset 1s to "0", decrease 10 counter and increase 10 ascii
+do_10:
+    STT <- PIP
+    cur_1s_ascii <- #48
+    left_to_print_1s <- #10
+    always_print_10s <- #1
+    left_to_print_10s <- DEC <-left_to_print_10s
+    cur_10s_ascii <- INC <- cur_10s_ascii
+    !left_to_print_10s ? NIP <- #do_100
+    NIP <- STT
+
+; Reset 10s to "0", decrease 100 counter and increase 100 ascii
+do_100:
+    STT <- PIP
+    cur_10s_ascii <- #48
+    left_to_print_10s <- #10
+    always_print_100s <- #1
+    left_to_print_100s <- DEC <-left_to_print_100s
+    cur_100s_ascii <- INC <- cur_100s_ascii
+    !left_to_print_100s ? NIP <- #do_1000
+    NIP <- STT
+
+; Reset 100s to "0", decrease 1000 counter and increase 1000 ascii. If none left, HALT
+do_1000:
+    STT <- PIP
+    cur_100s_ascii <- #48
+    left_to_print_100s <- #10
+    always_print_1000s <- #1
+    left_to_print_1000s <- DEC <-left_to_print_1000s
+    cur_1000s_ascii <- INC <- cur_1000s_ascii
+    !left_to_print_1000s ? STT <- #HLT
+    !left_to_print_1000s ? STT <- #buzz
+    NIP <- STT
+
+fizz:
+    fizz_counter <- #3
+    PRN <- #'F'
+    PRN <- #'i'
+    PRN <- #'z'
+    PRN <- #'z'
+    !buzz_counter ? PIP <- #buzz
+    PRN <- #10
+    NIP <- STT
+
+buzz:
+    buzz_counter <- #5
+    PRN <- #'B'
+    PRN <- #'u'
+    PRN <- #'z'
+    PRN <- #'z'
+    PRN <- #10
+    NIP <- STT
+
+cur_1s_ascii: 49
+cur_10s_ascii: 48
+cur_100s_ascii: 48
+cur_1000s_ascii: 48
+
+left_to_print_1s: 9
+left_to_print_10s: 10
+left_to_print_100s: 10
+left_to_print_1000s: 10
+
+always_print_10s: 0
+always_print_100s: 0
+always_print_1000s: 0
+
+fizz_counter: 3
+buzz_counter: 5

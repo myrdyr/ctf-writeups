@@ -1,0 +1,94 @@
+% STD
+;Write a hexdump program.
+;
+;The output of the data must be a hexdump of the data from
+;the input module. Print each 16-bit word as a 4 digit hex
+;number (uppercase), with 16 words on each line. Separate the
+;hex numbers with a space. There must not be any spaces at
+;the end of a line. If the input is empty the output must
+;be empty.
+;
+;The standard machine configuration is used.
+;
+;Example output:
+;
+;8F66 A6BC 90CE 3633 6A69 CFD1 BD08 BD68 6E4C 5AB6 B51D A1C7 81E3 E896 6FE6 1031
+;5C69 E1EA F813 E769 AB2C 7803 D64C A044 162D 62FA 311E 5C15 DE96 3E31 7BA5 A21D
+;FCDA 1702 CB9D 633C A900 81BF 19A1 3D69 B4A5 59B5 4766 0B8B 4A18 C5BD CEFF D7BB
+;37FD 2998 A89D 7128 6344 68EB 5921 2750 427E 467F 3F9F 81DF FF81 2FD3 BA90 F92F
+;BBAB 9C16 AF0F
+
+printed_counter <- #0
+
+loop:
+    !ICO ? NIP <- #done
+    empty_input <- #0
+
+    ; print space if 1 < round < 16
+    NIP <- #space
+
+    RES <- IDA
+    NIP <- #log_hex4
+    printed_counter <- INC <- printed_counter
+
+    ; Print newline if wrap
+    ALX <- printed_counter
+    ALY <- #16
+    EQU ? NIP <- #newline
+
+    NIP <- #loop
+
+space:
+    ALX <- printed_counter
+    ALY <- #1
+    ULT ? PIP <- NIP
+    ALY <- #16
+    EQU ? PIP <- NIP
+    PRN <- #32
+    PIP <- NIP
+
+newline:
+    PRN <- #10
+    printed_counter <- #0
+    NIP <- PIP
+
+log_hex4:
+    STT <- PIP
+
+    STT <- #4
+    NIP <- #log_hex_loop
+
+log_hex_loop:
+    ;; Put the next digit in the lower 4 bits
+    RES <- LRO <- LRO <- LRO <- LRO <- RES
+
+    ;; Get the lower 4 bits and convert to a hexadecimal character
+    ;; using hex_table
+    ALX <- RES
+    ALY <- #15
+    ALX <- AND
+    ALY <- #hex_table
+
+    ;; Print the digit
+    PRN <- *SUM
+
+    ;; Decrement the loop counter and stop when zero
+    ST0 <- DEC <- ST0
+    ST0 ? NIP <- #log_hex_loop
+
+    ;; Remove the loop counter from the stack
+    RES <- STT
+
+    ;; Return
+    NIP <- STT
+
+
+done:
+    empty_input ? NIP <- #HLT
+    ALX <- printed_counter
+    printed_counter ? PRN <- #10
+    NIP <- #HLT
+
+hex_table:              "0123456789ABCDEF"
+printed_counter: 0
+empty_input: 1

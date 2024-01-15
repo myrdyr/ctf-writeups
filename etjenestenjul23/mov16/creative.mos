@@ -1,0 +1,61 @@
+% STD RAS:0
+;It's time to get creative!
+;
+;Write a program that draws an image using the raster module.
+;If the image is accepted, you will be rewarded.
+;
+;The raster module (RAS) must be located in slot 0.
+;
+;The config "% STD RAS:0" works fine.
+
+RADIUS <- FIF <- #127
+!RADIUS ? NIP <- #zero
+RAP <- #0
+loop:
+    ; Calculate (x-128)^2
+    FPX <- FIF <- #128
+    FPY <- FIF <- RAX
+    X <- FDF
+    FPX <- X
+    FPY <- X
+    X <- FPR
+
+    ; Calculate (y-128)^2
+    FPX <- FIF <- #128
+    FPY <- FIF <- RAY
+    Y <- FDF
+    FPX <- Y
+    FPY <- Y
+    Y <- FPR
+
+    ; sqrt(x^2 + y^2)
+    FPX <- X
+    FPY <- Y
+    FPY <- FSR <- FSM
+
+    FPX <- RADIUS
+    FGT ? COLOR <- DEFAULT
+    FLT ? COLOR <- #0
+    RAI <- COLOR
+
+    DEFAULT <- INC <- DEFAULT
+    ALX <- DEFAULT
+    ALY <- #16
+    EQU ? DEFAULT <- #0
+    RAP ? NIP <- #loop
+    RAD <- #0
+    NIP <- #HLT
+
+zero:
+    RAX <- #128
+    RAY <- #128
+    RAW <- #12
+    RAD <- #0
+    NIP <- #HLT
+
+DEFAULT: 0
+RADIUS: 0
+DISTANCE: 0
+COLOR: 0
+X: 0.0
+Y: 0.0

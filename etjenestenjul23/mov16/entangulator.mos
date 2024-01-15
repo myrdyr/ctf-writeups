@@ -1,0 +1,425 @@
+% STD BPM:0
+
+; 1. Pick unique ID for each node
+; 2. Send ID + port number through all pipes
+; 3. Read from each pipe to get all INPUT values
+
+; Send 0 to output 0, 1 to output 1 etc.
+BPI <- #0
+loop_send_initial:
+    BPW <- BPI
+    BPI <- INC <- BPI
+    BPI ? NIP <- #loop_send_initial
+
+
+; Receive on all
+ptr <- #name
+BPI <- #0
+loop_recv_initial:
+    !BPS ? NIP <- #loop_recv_initial
+    ALX <- BPR
+    ALX <- LSH <- LSH <- LSH <- LSH <- LSH <- LSH <- LSH <- LSH <- ALX
+    BPI <- INC <- BPI
+loop_recv_second:
+    !BPS ? NIP <- #loop_recv_second
+    ALY <- BPR
+    *ptr <- SUM
+    ptr <- INC <- ptr
+    BPI <- INC <- BPI
+    BPI ? NIP <- #loop_recv_initial
+
+
+; Print own ID and newline
+ALY <- #'A'
+ptr <- #name
+PRN <- #'I'
+PRN <- #'D'
+PRN <- #' '
+counter <- namelen
+write_id_loop:
+    ; Print first nibble
+    ALX <- *ptr
+    ALY <- #$ff
+    ALX <- AND
+    ALY <- #'A'
+    PRN <- SUM
+
+    ; Print second nibble
+    ALX <- *ptr
+    ALX <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- ALX
+    PRN <- SUM
+
+    ; loop
+    ptr <- INC <- ptr
+    counter <- DEC <- counter
+    counter ? NIP <- #write_id_loop
+PRN <- #10
+
+; Everyone send their name on every channel (buffer is 16 words, so it should fit)
+BPI <- #0
+write_own_name_loop_outer:
+    ptr <- #name
+    counter <- namelen
+    write_own_name_loop_inner:
+        BPW <- *ptr
+        ptr <- INC <- ptr
+        counter <- DEC <- counter
+        counter ? NIP <- #write_own_name_loop_inner
+    BPW <- BPI ; Write port number
+    BPI <- INC <- BPI
+    BPI ? NIP <- #write_own_name_loop_outer
+
+; Loop over every channel and get the remote name
+; From our own name, we already know the remote port id
+PRN <- #'I'
+PRN <- #'N'
+PRN <- #'P'
+PRN <- #'U'
+PRN <- #'T'
+PRN <- #' '
+PRN <- #' '
+
+BPI <- #0
+resolve_input_outer:
+    counter <- namelen
+    resolve_input_inner:
+        !BPS ? NIP <- #resolve_input_inner
+        ; Print first nibble
+        tmp <- BPR
+        ALX <- tmp
+        ALY <- #$ff
+        ALX <- AND
+        ALY <- #'A'
+        PRN <- SUM
+
+        ; Print second nibble
+        ALX <- tmp
+        ALX <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- ALX
+        PRN <- SUM
+
+        counter <- DEC <- counter
+        counter ? NIP <- #resolve_input_inner
+
+    ALX <- BPR
+    ALY <- #hexchars
+    PRN <- #':'
+    PRN <- *SUM
+    PRN <- #' '
+
+    BPI <- INC <- BPI
+    BPI ? NIP <- #resolve_input_outer
+PRN <- #10
+
+
+BPI <- #0
+flood_initial_outer:
+    ptr <- #name
+    counter <- namelen ; Only send 6 / 8 words of name
+    flood_initial_inner_1:
+        BPW <- *ptr
+        ptr <- INC <- ptr
+        counter <- DEC <- counter
+        counter ? NIP <- #flood_initial_inner_1
+    BPW <- BPI ; outgoing port
+
+    counter <- namelen
+    flood_initial_inner_2:
+        BPW <- #0 ; pad 1..namelen
+        counter <- DEC <- counter
+        counter ? NIP <- #flood_initial_inner_2
+    BPW <- #0 ; port
+
+    BPI <- INC <- BPI
+    BPI ? NIP <- #flood_initial_outer
+
+
+
+recv_and_flood_loop:
+
+    BPI <- #0
+    ; Check if we are done
+    ;ALX <- resolved_outgoing
+    ;ALY <- #65535
+    ;EQU ? NIP <- #finished
+
+    recv_loop:
+        NIP <- #read_and_store_input
+        BPI <- INC <- BPI
+        BPI ? NIP <- #recv_loop
+
+    flood_loop:
+        NIP <- #replay_flood
+        BPI <- INC <- BPI
+        BPI ? NIP <- #flood_loop
+
+    debugcounter <- DEC <- debugcounter
+    ;DBG <- resolved_outgoing
+    !debugcounter ? NIP <- #finished
+    NIP <- #recv_and_flood_loop
+
+
+replay_flood:
+    STT <- PIP
+
+    MUX <- BPI
+    MUY <- doublexfixlen
+    ALX <- #PDUs
+    ALY <- UPL
+    p2 <- SUM
+    counter <- doublexfixlen
+    tmp <- BPI
+    ALX <- debugcounter
+    ALY <- BPI
+    BPI <- SUM
+    replay_flood_loop:
+        BPW <- *p2
+        BPO ? NIP <- #replay_flood_loop
+        p2 <- INC <- p2
+        counter <- DEC <- counter
+        counter ? NIP <- #replay_flood_loop
+
+    BPI <- tmp
+    NIP <- STT
+
+; Assume there is something to read
+read_and_store_input:
+    STT <- PIP
+    ; Read 7 bytes (prefix name + port) into buf7_0
+    counter <- xfixlen
+    ptr <- #buf7_0
+
+    read_and_store_inner_1:
+        !BPS ? NIP <- #read_and_store_inner_1
+        *ptr <- BPR
+        ptr <- INC <- ptr
+        counter <- DEC <- counter
+        counter ? NIP <- #read_and_store_inner_1
+
+    ; Read 7 bytes (suffix name + port) into buf7_1
+    counter <- xfixlen
+    ptr <- #buf7_1
+    read_and_store_inner_2:
+        !BPS ? NIP <- #read_and_store_inner_2
+        *ptr <- BPR
+        ptr <- INC <- ptr
+        counter <- DEC <- counter
+        counter ? NIP <- #read_and_store_inner_2
+
+
+    ; Now buf7_0 contains prefix and buf7_1 contains suffix
+
+    ; Compare prefix with our own name
+    counter <- namelen
+    p1 <- #name
+    p2 <- #buf7_0
+    NIP <- #memory_compare
+    prefix_equal <- RES
+
+    ; Compare suffix with zeros, and overwrite if equal
+    counter <- namelen
+    p1 <- #zerobuf
+    p2 <- #buf7_1
+    NIP <- #memory_compare
+    !RES ? NIP <- #skip_overwrite_name
+
+    ; Replace suffix with our ID + incoming port
+    counter <- namelen
+    p1 <- #buf7_1
+    p2 <- #name
+    overwrite_name_inner:
+        *p1 <- *p2
+        p1 <- INC <- p1
+        p2 <- INC <- p2
+        counter <- DEC <- counter
+        counter ? NIP <- #overwrite_name_inner
+    *p1 <- BPI
+
+
+    skip_overwrite_name:
+    prefix_equal ? NIP <- #do_resolve
+
+    ; Copy PDU from (buf7_0+buf7_1) into PDUs[14*BPI]
+    MUX <- BPI
+    MUY <- doublexfixlen
+    ALX <- UPL
+    ALY <- #PDUs
+    p2 <- SUM
+    p1 <- #buf7_0
+    counter <- xfixlen
+    replay_loop_1:
+        *p2 <- *p1
+        p1 <- INC <- p1
+        p2 <- INC <- p2
+
+        counter <- DEC <- counter
+        counter ? NIP <- #replay_loop_1
+    
+    p1 <- #buf7_1
+    counter <- xfixlen
+    replay_loop_2:
+        *p2 <- *p1
+        p1 <- INC <- p1
+        p2 <- INC <- p2
+
+        counter <- DEC <- counter
+        counter ? NIP <- #replay_loop_2
+
+    NIP <- STT
+
+; This PDU is for us. Extract the info and store it.
+; buf7_0 contains the first transmitter (output) and
+; buf7_1 contains the first receiver (input).
+; Returns to `ret`
+do_resolve:
+    ; Calculate offset into portarray (buf7_0[6] * 7)
+    STT <- PIP
+    ALX <- #buf7_0
+    ALY <- namelen
+    tmp <- *SUM
+
+    MUX <- tmp
+    MUY <- xfixlen
+    ALX <- #portarray
+    ALY <- UPL
+    ptr <- SUM
+
+    ; Calculate new resolve value for outgoing
+    ; resolved_outgoing = (resolved_outgoing ORR (ALY << buf7_1[6]))
+    ALX <- resolved_outgoing
+    ALY <- #1
+    counter <- tmp
+    !counter ? NIP <- #do_resolve_skip_2
+    do_resolve_inner_2:
+        ALY <- LSH <- ALY
+        counter <- DEC <- counter
+        counter ? NIP <- #do_resolve_inner_2
+    do_resolve_skip_2:
+        AND ? NIP <- STT; Skip if already resolved
+        resolved_outgoing <- ORR
+
+    ; Write into from buf7_1 into portarray, converting port to hex
+    p1 <- ptr
+    p2 <- #buf7_1
+    counter <- namelen
+    do_resolve_write:
+        *p1 <- *p2
+        p1 <- INC <- p1
+        p2 <- INC <- p2
+        counter <- DEC <- counter
+        counter ? NIP <- #do_resolve_write
+
+    ALX <- #hexchars
+    ALY <- *p2
+    *p1 <- *SUM
+
+    NIP <- STT
+
+; ALX contains what to resolve
+is_resolved:
+    STT <- PIP
+    ALY <- #1
+    counter2 <- BPI
+    !counter2 ? NIP <- #is_resolved_skip
+    is_resolved_inner:
+        ALY <- LSH <- ALY
+        counter2 <- DEC <- counter2
+        counter2 ? NIP <- #is_resolved_inner
+is_resolved_skip:
+    ALX <- AND
+    RES <- #0
+    ALX ? RES <- #1
+    NIP <- STT
+
+; Compares p1 and p2 for <counter> bytes, sets RES=1 if equal
+memory_compare:
+    STT <- PIP
+    equal <- #1
+    compare_inner:
+        ALX <- *p1
+        ALY <- *p2
+        DIF ? equal <- #0
+        counter <- DEC <- counter
+        p1 <- INC <- p1
+        p2 <- INC <- p2
+        counter ? NIP <- #compare_inner
+    RES <- equal
+    NIP <- STT
+
+finished:
+    PRN <- #'O'
+    PRN <- #'U'
+    PRN <- #'T'
+    PRN <- #'P'
+    PRN <- #'U'
+    PRN <- #'T'
+    PRN <- #' '
+    counter <- #16
+    ptr <- #portarray
+    finished_outer:
+        counter2 <- namelen
+        finished_inner:
+            ALX <- *ptr
+            ALY <- #$ff
+            ALX <- AND
+            ALY <- #'A'
+            PRN <- SUM
+            ALX <- *ptr
+            ALX <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- RSH <- ALX
+            PRN <- SUM
+
+            ptr <- INC <- ptr
+            counter2 <- DEC <- counter2
+            counter2 ? NIP <- #finished_inner
+
+        PRN <- #':'
+
+        PRN <- *ptr
+        PRN <- #' '
+        ptr <- INC <- ptr
+        counter <- DEC <- counter
+        counter ? NIP <- #finished_outer
+    NIP <- #HLT
+
+namelen: 3
+xfixlen: 4
+doublexfixlen: 8
+
+debugcounter: 321
+ptr: 0
+name: "AAAAAAAA",0
+hexchars: "0123456789ABCDEF",0
+counter: 0
+counter2: 0
+tmp: 0
+equal:0
+prefix_equal:0
+buf7_0: 0,0,0,0,0,0,0
+buf7_1: 0,0,0,0,0,0,0
+zerobuf: 0,0,0,0,0,0
+p1: 0
+p2: 0
+resolved_incoming: 0 ; bitfield
+resolved_outgoing: 0 ; bitfield
+
+
+
+; 16 * 14 but 256 for safety
+PDUs: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+; (6+1) * 16 with 0x00 = not resolved and "[0-F]" resolved. Must be last
+portarray: 0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
+           0,0,0,0,0,0, 0,
