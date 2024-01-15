@@ -15,55 +15,55 @@ Nytt i år var et initielt oppdrag som alle måtte sluses gjennom før de fikk t
     + [1.7 Path Traversal](#17-path-traversal)
     + [1.8 Path Traversal Bonus](#18-path-traversal-bonus)
   * [2. Initiell aksess](#2-initiell-aksess)
-    + [2.0.1_manipulaite_1](#201-manipulaite-1)
-    + [2.0.2_anvilticket_1](#202-anvilticket-1)
-    + [2.0.3_anvilticket_2](#203-anvilticket-2)
-    + [2.0.4_manipulaite_2](#204-manipulaite-2)
-    + [2.0.5_pcap](#205-pcap)
-    + [2.0.6_dep-gw](#206-dep-gw)
+    + [2.0.1_manipulaite_1](#201_manipulaite_1)
+    + [2.0.2_anvilticket_1](#202_anvilticket_1)
+    + [2.0.3_anvilticket_2](#203_anvilticket_2)
+    + [2.0.4_manipulaite_2](#204_manipulaite_2)
+    + [2.0.5_pcap](#205_pcap)
+    + [2.0.6_dep-gw](#206_dep-gw)
   * [2.x](#2x)
   * [2.1. Department of Development and Test](#21-department-of-development-and-test)
-    + [2.1.1_hello](#211-hello)
-    + [2.1.2_circle](#212-circle)
-    + [2.1.3_creative](#213-creative)
-    + [2.1.4_hexdump](#214-hexdump)
-    + [2.1.5_fizzbuzz](#215-fizzbuzz)
-    + [2.1.6_poppins](#216-poppins)
-    + [2.1.7_pushwagner](#217-pushwagner)
+    + [2.1.1_hello](#211_hello)
+    + [2.1.2_circle](#212_circle)
+    + [2.1.3_creative](#213_creative)
+    + [2.1.4_hexdump](#214_hexdump)
+    + [2.1.5_fizzbuzz](#215_fizzbuzz)
+    + [2.1.6_poppins](#216_poppins)
+    + [2.1.7_pushwagner](#217_pushwagner)
   * [2.2. Department of Cryptography](#22-department-of-cryptography)
-    + [2.2.1_klassisk_krypto](#221-klassisk-krypto)
-    + [2.2.2_moderne_krypto](#222-moderne-krypto)
-    + [2.2.3_eaes](#223-eaes)
+    + [2.2.1_klassisk_krypto](#221_klassisk_krypto)
+    + [2.2.2_moderne_krypto](#222_moderne_krypto)
+    + [2.2.3_eaes](#223_eaes)
   * [2.3. Department of Research](#23-department-of-research)
-    + [2.3.1_qnet](#231-qnet)
+    + [2.3.1_qnet](#231_qnet)
       - [Intro](#intro)
       - [Angrep 1](#angrep-1)
       - [Angrep 2](#angrep-2)
   * [2.4. Department of Intelligence](#24-department-of-intelligence)
-    + [2.4.1_bits_flag0](#241-bits-flag0)
-    + [2.4.2_bits_flag32](#242-bits-flag32)
-    + [2.4.3_bits_flag64](#243-bits-flag64)
-    + [2.4.4_bits_fibonacci](#244-bits-fibonacci)
-    + [2.4.5_bits_win1](#245-bits-win1)
-    + [2.4.6_bits_win2](#246-bits-win2)
-    + [2.4.7_bits_win3](#247-bits-win3)
+    + [2.4.1_bits_flag0](#241_bits_flag0)
+    + [2.4.2_bits_flag32](#242_bits_flag32)
+    + [2.4.3_bits_flag64](#243_bits_flag64)
+    + [2.4.4_bits_fibonacci](#244_bits_fibonacci)
+    + [2.4.5_bits_win1](#245_bits_win1)
+    + [2.4.6_bits_win2](#246_bits_win2)
+    + [2.4.7_bits_win3](#247_bits_win3)
   * [2.5. Department of Security](#25-department-of-security)
-    + [2.5.1_passftp](#251-passftp)
-    + [2.5.2_passftp](#252-passftp)
-    + [2.5.3_passftp](#253-passftp)
+    + [2.5.1_passftp](#251_passftp)
+    + [2.5.2_passftp](#252_passftp)
+    + [2.5.3_passftp](#253_passftp)
   * [2.6. Department of Technology](#26-department-of-technology)
-    + [2.6.1_3sat_1](#261-3sat-1)
-    + [2.6.2_3sat_2](#262-3sat-2)
-    + [2.6.3_3sat_3](#263-3sat-3)
-    + [2.6.4_arbitrary_code_execution](#264-arbitrary-code-execution)
+    + [2.6.1_3sat_1](#261_3sat_1)
+    + [2.6.2_3sat_2](#262_3sat_2)
+    + [2.6.3_3sat_3](#263_3sat_3)
+    + [2.6.4_arbitrary_code_execution](#264_arbitrary_code_execution)
   * [2.7. Department of Nuclear Power](#27-department-of-nuclear-power)
-    + [2.7.1_aksess](#271-aksess)
-    + [2.7.2_entangulator](#272-entangulator)
-    + [2.7.3_hexostator](#273-hexostator)
-    + [2.7.4_omvisning](#274-omvisning)
-    + [2.7.5_finale](#275-finale)
+    + [2.7.1_aksess](#271_aksess)
+    + [2.7.2_entangulator](#272_entangulator)
+    + [2.7.3_hexostator](#273_hexostator)
+    + [2.7.4_omvisning](#274_omvisning)
+    + [2.7.5_finale](#275_finale)
   * [4. Skjulte flagg](#4-skjulte-flagg)
-    + [4.1 Corax /dev/shm](#41-corax--dev-shm)
+    + [4.1 Corax /dev/shm](#41-corax-dev-shm)
 
 
 ## 1. Grunnleggende
@@ -220,11 +220,11 @@ Admin
 ### 2.0.3_anvilticket_2
 
 Nå kan vi logge inn som `thenewguy`, og umiddelbart ser vi både flere tickets og en ny funksjon.
-![2.0.3.png]
+![2.0.3.png](2.0.3.png)
 
 Ved å gå til `Update` ser vi at vi kan endre brukernavn eller passord.
 
-![2.0.3-2.png]
+![2.0.3-2.png](2.0.3-2.png)
 
 Men vi kan ikke endre brukernavnet vårt til et brukernavn som allerede eksisterer. Ser vi på cookien `session`, som blir satt når vi logger inn eller endrer på noe, så inneholder denne både brukernavn, og to felt kalt `groupid` og `admin`. Ved å legge til noen parametere som setter group til 2 og/eller admin til 1 (true), gir det oss et flagg på oversiktssiden. Dette må enten gjøres ved å endre requesten inni nettleseren, ellers må cookie manuelt oppdateres hver gang. Her har vi nemlig ingen session token, men all session-data lokalt i stedet.
 
@@ -337,7 +337,7 @@ Denne oppgaven er bare å kopiere aller første eksempel fra `MOV16-101 Programm
 
 Her skal vi bruke `RAS`-modulen til å tegne en sirkel. Radius på sirkelen kommer fra input, og er mellom 0 og 127. Midten av sirkelen skal ligge på punkt (128, 128). Her trenger vi egentlig bare litt enkel trigonometri. Et vilkårlig punkt (X, Y) vil danne en rettvinklet trekant med punktet (128, 128) og enten X eller Y-verdien til punktet.
 
-![2.1.2.png]
+![2.1.2.png](2.1.2.png)
 
 Lengden til hypotenusen er gitt av kvadratroten til `(X - 128)^2 + (Y - 128)^2`, og hvis denne distansen er kortere enn sirkelens radius så er punktet innenfor sirkelen. Med en formel som kan avgjøre om et punkt er innenfor eller utenfor sirkelen, gjenstår det bare å iterere over alle koordinatene og sette fargene korrekt.
 
@@ -360,7 +360,7 @@ Se [hexdump.mos](mov16/hexdump.mos) for et løsningsforslag.
 
 ### 2.1.5_fizzbuzz
 
-Fizzbuzz er en velkjent oppgave. Utfordringen her er at vi kun får bruke MPU-modulen og printeren, slik at vi ikke kan gjøre matematiske operasjoner. Løsningen min bruker i stedet conditionals, som og tall som teller nedover. Da kan jeg bruke `?`-operatoren for å sjekke om de er lik null eller ikke. Samtidig teller to andre tellere ned fra hhv. 3 og 5, og hvis en av disse når 0 så blir det enten "Fizz" og/eller "Buzz" i stedet for å skrive ut tall.
+Fizzbuzz er en velkjent oppgave. Utfordringen her er at vi kun får bruke MPU-modulen og printeren, slik at vi ikke kan gjøre matematiske operasjoner. Løsningen min bruker i stedet conditionals og tall som teller nedover. Da kan jeg bruke `?`-operatoren for å sjekke om de er lik null eller ikke. Samtidig teller to andre tellere ned fra hhv. 3 og 5, og hvis en av disse når 0 så blir det enten "Fizz" og/eller "Buzz" i stedet for å skrive ut tall.
 
 For å skrive ut tallene så initialiserer jeg en streng med "0001" og inkrementerer og wrapper selve ASCII-verdiene i strengen i stedet for å omregne fra tall. Det trengs noen flagg for å vite om tiere, hundrere eller tusener skal skrives ut, ettersom løsningen ikke skal printe ledende nuller.
 
@@ -710,7 +710,7 @@ QA <~~> QC <~~> QB
 A <---> C <---> B
 ```
 
-Tvisten her er at node A og B ikke er direkte sammenkoblet verken klassisk eller via kvantefiber, så all kommunikasjon går gjennom node C, som vi har full kontroll over (inkludert avlytting via tcpump). Vi styrer ikke vår egen Qnode, og har heller ikke kildekoden til denne, men kan kommunisere med APIet dens. Med jevne mellomrom vil node A spørre node C om å generere 3000 qubits. Standard-koden til node C gjør dette, og deler hver av de sammenfiltrede qubit-parene med Qnode A og Qnode B. QUUIDene (Quantum UUID) sendes til node A, som så utfører E91-protokollen for nøkkelutveksling med node B. Denne skal være tilsynelatende være robust mot MITM-angrep, ved at man kan sjekke hvorvidt en i midten har introdusert lokal realisme ved å måle qubits som burde vært urørte. For dette brukes ren statistikk til å avgjøre om noen spionerer.
+Tvisten her er at node A og B ikke er direkte sammenkoblet verken klassisk eller via kvantefiber, så all kommunikasjon går gjennom node C, som vi har full kontroll over (inkludert avlytting via tcpump). Vi styrer ikke vår egen Qnode, og har heller ikke kildekoden til denne, men kan kommunisere med APIet dens. Med jevne mellomrom vil node A spørre node C om å generere 3000 qubits. Standard-koden til node C gjør dette, og deler hver av de sammenfiltrede qubit-parene med Qnode A og Qnode B. QUUIDene (Quantum UUID) sendes til node A, som så utfører E91-protokollen for nøkkelutveksling med node B. Denne skal tilsynelatende være robust mot MITM-angrep, ved at man kan sjekke hvorvidt en i midten har introdusert lokal realisme ved å måle qubits som burde vært urørte. For dette brukes ren statistikk til å avgjøre om noen spionerer.
 
 Etter å ha fått 3000 qubits av node C, vil node A nå måle de ti første i en spesifikk basis og bruke resultatet til å seede en PRNG som avgjør hvilke basiser A kommer til å måle i videre. Deretter utføres målingen, hvor kun de valgte basisene sendes til node B, som først nå våkner opp og innser at det skjer noe. Node B måler også 10 qubits i en (annen) statisk base, seeder sin egen PRNG, og gjør sine egne målinger. Deretter deler den hvilke basiser som **ikke** ble målt i samme basis som node A valgte, samt hvilke verdier som ble målt. Siden fotonene er sammenfiltret, vil de som måles i samme basis ha samme målt verdi, og derfor vet både A og B nå en delt hemmelighet ved å se på verdiene til de sammenfallende målingene. (Egentlig er fotonene anti-korrelert, så målingene er stikk motsatt av hverandre, og en av partene må invertere). Begge disse meldingene fram og tilbake mellom A og B er signert med en HMAC med ukjent kompleksitet, og kan ikke enkelt endres på av node C.
 
@@ -986,7 +986,7 @@ Hvor `-` er en eller annen separator mellom tallene. Dette dekoder teksten helt 
 
 Neste steg er å dekode selve artikkelen om sekvensen, og da ser vi fort at sekvensen som den er ikke finnes i artikkelen. Om vi derimot ser på hvert av tallene for seg, så finner vi igjen sekvensen - men med en annen type separator(er). Strategien min herfra var mye prøving og feiling, men jeg antok at ordet "Fibonacci" kom til å være i teksten mange ganger, og hvis vi antar 5-6 tegn per bokstav kan vi se etter mønsteret `X____YYX` og matche dette mot `IbonaCCI` og se om vi får ut noe som går igjen mange ganger i teksten. Som en optimalisering, ignorerer vi alle sekvenser som er prefix av andre sekvenser. Bitarray-modulen sjekker dette selv, og sier fra om noe er lagt inn feil.
 
-Takket være tallene fant jeg et par årstall for bøker, leveår osv. for Fibonacci. Etterhvert som det kom ut et par ord her og der, begynte jeg å søke etter teksten på Internett, men jeg fant ikke noe som matchet. Det var mulig å gjette hvilke ord som fulgte andre ord, og etterhvert fant jeg også ut at space var enkodet som `011` og derfra gikk ting mye bedre. Nå kunne jeg legge til bokstaver der jeg så det passet, og så kom det ut deler av setninger som `Fibonacci sequence is the sequence of numbers starting` og `indian mathematicians`. Herfra oppdaget jeg at flaggt lå helt til slutt i sekvensen, og at det var i hex-format. Derfor trengte jeg bare å identifisere `abcdef` for å kunne dekode flagget.
+Takket være tallene fant jeg et par årstall for bøker, leveår osv. for Fibonacci. Etterhvert som det kom ut et par ord her og der, begynte jeg å søke etter teksten på Internett, men jeg fant ikke noe som matchet. Det var mulig å gjette hvilke ord som fulgte andre ord, og etterhvert fant jeg også ut at space var enkodet som `011` og derfra gikk ting mye bedre. Nå kunne jeg legge til bokstaver der jeg så det passet, og så kom det ut deler av setninger som `Fibonacci sequence is the sequence of numbers starting` og `indian mathematicians`. Herfra oppdaget jeg at flagget lå helt til slutt i sekvensen, og at det var i hex-format. Derfor trengte jeg bare å identifisere `abcdef` for å kunne dekode flagget.
 
 ```python
     'a': bitarray('11100'),
@@ -1000,7 +1000,7 @@ Takket være tallene fant jeg et par årstall for bøker, leveår osv. for Fibon
 
 Game of Win er et spill som ikke er helt ulikt Nim på mange måter. Serveren lager en rekke på N bits, hvor N=64 i win1, og alle bits er initielt satt til 1. Deretter flippes et par tilfeldige bits til 0, og vi får lov å starte spillet. Spillet går etter tur mellom spiller og server, hvor hver runde består av at man velger ut én bit som man vil flippe fra 1 til 0. Spillet krever også at den biten man velger ligger rett foran en annen bit som også er en 1. Kort fortalt kan man kun flippe `110` til `010`, men hvis sekvensen er `101` så er det ingen gyldige bits å flippe. Den som først får en runde hvor en ikke kan gjøre noe, taper spillet. Målet vårt er derfor å gjøre det siste gyldige trekket, slik at serveren taper og gir oss flagget.
 
-Trikset for å løse denne oppgaven bunner ut i et slags bevis via induksjon. Først splitter vi hele bit-sekvensen på `0` og ser bare på serier med `1`-bits. Da er det enkelt å se at hvis en sånn serie er bare en enkelt `1` så er den serien tapende. Det er ingenting å gjøre med den. `11` vil derimot flippe til en `01` som så splittes til `1`, så dette er en vinnende sekvens fordi den kan gjøres om til en tapende sekvens på ett trekk. Det går an å bygge seg opp en del slike vinnende og tapende sekvenser med flere og flere bits, og målet vårt er å sitte igjen med et antall vinnende vs. tapende sekvenser slik at vi får det siste trekket. Hver gang vi flipper en bit midt i en rekke med 1-bits, så deler vi i prinsippet sekvensen i to. I Nim tilsvarer dette å dele en haug i 2.
+Trikset for å løse denne oppgaven bunner ut i et slags bevis via induksjon. Først splitter vi hele bit-sekvensen på `0` og ser på seriene med `1`-bits som separate spill. Da er det enkelt å se at hvis en sånn serie er bare en enkelt `1` så er den serien tapende. Det er ingenting å gjøre med den. `11` vil derimot flippe til en `01` som så splittes til `1`, så dette er en vinnende sekvens fordi den kan gjøres om til en tapende sekvens på ett trekk. Det går an å bygge seg opp en del slike vinnende og tapende sekvenser med flere og flere bits, og målet vårt er å sitte igjen med et antall vinnende vs. tapende sekvenser slik at vi får det siste trekket. Hver gang vi flipper en bit midt i en rekke med `1`-bits, så deler vi i prinsippet sekvensen i to. I Nim tilsvarer dette å dele en haug i 2.
 
 En naiv brute-force-metode vil kunne fungere på N=64, men etterhvert som spillet går opp i antall bits, jo mer komplisert blir det å tenke ut alle tilstandene fram til at man vinner. Jeg gikk derfor for en løsning som kunne løse alle 3, og det involverer [Grundy-nummere](https://en.wikipedia.org/wiki/Sprague%E2%80%93Grundy_theorem). 
 
@@ -1016,7 +1016,7 @@ G(3) = {G(0) ^ G(2), G(1) ^ G(1)} = {0, 1} -> 2
 G(4) = {G(0) ^ G(3), G(1) ^ G(2)} = {2, 1} -> 0
 G(5) = {G(0) ^ G(4), G(1) ^ G(3), G(2) ^ G(2)} = {0, 2, 0} -> 1
 G(6) = {G(0) ^ G(5), G(1) ^ G(4), G(2) ^ G(3)} = {1, 0, 3} -> 2
-G(7) = {G(0) ^ G(6), G(1) ^ G(5), G(2) ^ G(4), G(3) ^ G(3)} -> {2, 1, 1, 0} = 3
+G(7) = {G(0) ^ G(6), G(1) ^ G(5), G(2) ^ G(4), G(3) ^ G(3)} = {2, 1, 1, 0} -> 3
 G(8) = {G(0) ^ G(7), G(1) ^ G(6), G(2) ^ G(5), G(3) ^ G(4)} = {3, 2, 0, 2} -> 1
 ```
 
@@ -1498,11 +1498,11 @@ r.interactive()
 
 ### 2.6.4_arbitrary_code_execution
 
-Beskrivelsen av denne oppgaven kan kokes ned til "Cursed Rust". Det brukes en custom allocator for en del operasjoner, og man kan legge til tilfeldige elementer i en liste. Disse elementene kan printes ut, og dette gjøres ved å kalle en print-funksjon-peker som ligger sammen med hver verdi. år man kjører en reset så slettes ikke det som ligger der, men pekeren flyttes tilbake til start. Derfor kan man ved å kjøre reset, skrive en u64, reset igjen, og så skrive chars, overskrive pekeren til print-funksjonen for u64.
+Beskrivelsen av denne oppgaven kan kokes ned til "Cursed Rust". Det brukes en custom allocator for en del operasjoner, og man kan legge til tilfeldige elementer i en liste. Disse elementene kan printes ut, og dette gjøres ved å kalle en print-funksjon-peker som ligger sammen med hver verdi. Når man kjører en reset så slettes ikke det som ligger der, men pekeren flyttes tilbake til start. Derfor kan man ved å kjøre reset, skrive en u64, reset igjen, og så skrive chars, overskrive pekeren til print-funksjonen for u64.
 
 Dessverre vet vi ikke hvilke chars vi kommer til å skrive, og vi vet heller ikke *hva* vi skal skrive, siden pekeren har en eller annen form for ASLR. Jeg hadde en tanke om å prøve å kunne slette elementer for å overskrive samme sted på nytt og på nytt til vi hadde en plausibel verdi, eller gjøre en partial overwrite, men jeg fikk ikke til noen av delene.
 
-Løsningen ble i stedet å angripe selv allocatoren ved å sende inn et kjempelangt collection-navn når man skriver til fil. For å finne ut hvor win-funksjonen ligger trenger vi en leak, og det kan vi få ved å corrupte `is_empty`-funksjonen.
+Løsningen ble i stedet å angripe selve allocatoren ved å sende inn et kjempelangt collection-navn når man skriver til fil. For å finne ut hvor win-funksjonen ligger trenger vi en leak, og det kan vi få ved å corrupte `is_empty`-funksjonen.
 
 Endelig sekvens blir da
 
